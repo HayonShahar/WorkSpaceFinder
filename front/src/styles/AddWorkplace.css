@@ -1,0 +1,114 @@
+/* Container for the Add Workplace page */
+.add-workplace-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f4f4f9; /* Optional: Add a light background color */
+    width: 100%; /* Ensure it stretches across the screen */
+  }
+  
+  .add-workplace-container h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .add-workplace-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .add-workplace-form .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-workplace-form label {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+  }
+  
+  .add-workplace-form input,
+  .add-workplace-form textarea {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .add-workplace-form textarea {
+    resize: vertical;
+  }
+  
+  .add-workplace-form button {
+    padding: 10px;
+    font-size: 1.2rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .add-workplace-form button:hover {
+    background-color: #0056b3;
+  }
+
+  .add-workplace-form select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #121212;
+    cursor: pointer;
+  }
+  
+  .add-workplace-form select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .add-workplace-form select:invalid {
+    color: gray;
+  }
+  
+  
+  
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .add-workplace-container {
+      padding: 10px;
+    }
+  
+    .add-workplace-form {
+      padding: 10px;
+    }
+  
+    .add-workplace-form input,
+    .add-workplace-form textarea {
+      font-size: 0.9rem;
+    }
+  
+    .add-workplace-form button {
+      font-size: 1rem;
+    }
+  }
+  
+  /* Extra small screens (phones in portrait mode) */
+  @media (max-width: 480px) {
+    .add-workplace-container {
+      padding: 10px;
+    }
+  
+    .add-workplace-form {
+      padding: 5px;
+    }
+  
+    .add-workplace-form button {
+      font-size: 1rem;
+      padding: 8px;
+    }
+  }
+  
