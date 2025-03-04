@@ -6,6 +6,7 @@ import SearchSection from './components/Home/SearchSection';
 import Footer from './components/Home/Footer';
 import Header from './components/Home/Header';
 import AddWorkplace from './components/Add/AddWorkplace';  
+import DarkModeToggle from './components/Home/DarkModeToggle';
 import './App.css'; 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
     <Router>  {/* Wrap the whole app in Router */}
       <div>
         <Header />
+        <DarkModeToggle />
         <Routes>  {/* Define routes here */}
           <Route path="/" element={
             <>

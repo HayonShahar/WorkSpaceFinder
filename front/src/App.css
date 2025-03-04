@@ -5,16 +5,123 @@
   box-sizing: border-box;
 }
 
-/* Body styling */
+/* Light mode (default) */
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f8f9fa;
-  color: #333;
+  color: #dbdbdb;
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Add global margin/padding */
-div {
-  margin: 0;
-  padding: 0;
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0; /* Lighter text color in dark mode */
+}
+
+/* Dark mode input fields */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #2c2c2c;
+  color: #e0e0e0; /* Lighter text color in dark mode */
+  border: 1px solid #555;
+}
+
+/* Dark mode button */
+body.dark-mode button {
+  background-color: #f1c40f;
+  color: black;
+}
+
+body.dark-mode button:hover {
+  background-color: #d4a007;
+}
+
+/* Dark mode elements */
+body.dark-mode .add-workplace-container,
+body.dark-mode .features-container,
+body.dark-mode .footer-container,
+body.dark-mode .header {
+  background-color: #1e1e1e;
+  color: #e0e0e0; /* Lighter text color in dark mode */
+}
+
+body.dark-mode .feature-item {
+  background-color: #eeeeee;
+  color: #e0e0e0; /* Lighter text color in dark mode */
+}
+
+body.dark-mode .hero-container {
+  background-color: #181818;
+}
+
+body.dark-mode .search-container {
+  background-color: #222;
+}
+
+body.dark-mode .footer-container {
+  background-color: #181818;
+}
+
+/* Dark mode links */
+body.dark-mode .nav ul li a {
+  color: #e0e0e0; /* Lighter link color */
+}
+
+body.dark-mode .nav ul li a:hover {
+  color: #f1c40f;
+}
+
+/* Floating dark mode toggle button */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dark-mode-toggle:hover {
+  background-color: #555;
+}
+
+/* Adjust button for dark mode */
+body.dark-mode .dark-mode-toggle {
+  background-color: white;
+  color: black;
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+  background-color: #ddd;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .features-list {
+    justify-content: center;
+  }
+
+  .feature-item {
+    width: 100%;
+  }
+
+  .features-container h2 {
+    font-size: 2rem;
+  }
+
+  .footer-container {
+    padding: 20px;
+  }
+
+  .footer-container p {
+    font-size: 0.9rem;
+  }
 }
