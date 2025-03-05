@@ -4,7 +4,7 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 60vw;
+    width: 30vw;
     max-width: 800px;
     text-align: left;
     transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */

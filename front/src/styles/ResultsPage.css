@@ -1,49 +1,80 @@
 /* Results Page */
 .results-page {
     padding: 20px;
-    text-align: center;
-  }
-  
-  .workplace-list {
+    text-align: center; /* Center the content of the page by default */
+}
+
+.workplace-list {
     display: flex;
-    flex-direction: column; /* Change to vertical layout */
-    align-items: center; /* Center the items horizontally */
+    flex-wrap: wrap; /* Allow wrapping */
+    justify-content: center; /* Center the items horizontally */
     gap: 20px; /* Space between the items */
     max-width: 100%; /* Ensure full width */
-  }
-  
-  /* Workplace Card */
-  .workplace-card {
+}
+
+/* Workplace Card */
+.workplace-card {
     background: white;
     padding: 20px; /* Increased padding for better spacing */
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%; /* Ensure cards stretch across the container width */
-    max-width: 600px; /* Optional: Limit the maximum width for a more balanced look */
+    max-width: 300px; /* Limit the maximum width for a more balanced look */
     min-height: 150px; /* Ensure the cards have a minimum height */
     display: flex;
     flex-direction: column; /* Stack elements inside the card */
     gap: 10px; /* Space between items inside the card */
     justify-content: space-between; /* Ensure the content inside the card is spaced out evenly */
-  }
-  
-  /* Card Content Styles */
-  .workplace-card img {
+    text-align: left; /* Align text to the left by default */
+}
+
+/* Card Content Styles */
+.workplace-card img {
     width: 100%; /* Make image fill the card */
     height: auto;
     border-radius: 8px; /* Rounded corners for the image */
-  }
-  
-  .workplace-card h3 {
+}
+
+.workplace-card h3 {
     font-size: 1.5rem; /* Adjust the size of the title */
-  }
-  
-  .workplace-card p {
+}
+
+.workplace-card p {
     font-size: 1rem; /* Adjust the size of the description */
-  }
-  
-  .workplace-card .rating {
+}
+
+.workplace-card .rating {
     font-size: 1.2rem;
     color: #f1c40f; /* Yellow color for rating */
-  }
-  
+}
+
+/* Mobile and Tablet Responsiveness - Vertical layout for smaller screens */
+@media (max-width: 768px) {
+    .workplace-list {
+        flex-direction: column; /* Change to vertical layout on smaller screens */
+        align-items: center; /* Center the items horizontally */
+        gap: 20px; /* Space between the items */
+    }
+
+    .workplace-card {
+        width: 100%; /* Ensure cards stretch across the full width */
+        max-width: 100%; /* Allow cards to fill the screen */
+    }
+}
+
+/* Larger screens - 3 Cards in a row */
+@media (min-width: 769px) {
+    .workplace-list {
+        flex-direction: row; /* Default side-by-side layout */
+    }
+
+    .workplace-card {
+        width: calc(33.333% - 20px); /* Display 3 cards in a row with a gap of 20px */
+        max-width: 300px; /* Limit the maximum width for balance */
+    }
+
+    /* Center text inside the card only on larger screens */
+    .workplace-card {
+        text-align: center; /* Center the text inside each card */
+    }
+}
