@@ -1,15 +1,64 @@
+/* Workplace Item */
 .workplace-item {
     background: #fff;
-    padding: 15px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 250px;
-    text-align: center;
+    width: 60vw;
+    max-width: 800px;
+    text-align: left;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+  }
+  
+  body.dark-mode .workplace-item {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
   }
   
   .workplace-item img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
+  }
+  
+  .workplace-item h3 {
+    font-size: 1.6rem;
+    margin-top: 15px;
+  }
+  
+  .workplace-item p {
+    font-size: 1.1rem;
+    margin-top: 10px;
+  }
+  
+  .workplace-item .rating {
+    font-size: 1.2rem;
+    color: #f1c40f; /* Yellow color for ratings */
+  }
+  
+  /* Hover effect */
+  .workplace-item:hover {
+    transform: translateY(-5px); /* Lift the card up slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increase shadow for more depth */
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    .workplace-item {
+      width: 90vw;
+      padding: 15px;
+    }
+  }
+  
+  /* Dark Mode Styles */
+  body.dark-mode .workplace-item h3,
+  body.dark-mode .workplace-item p {
+    color: #e0e0e0;
+  }
+  
+  /* Light Mode Styles */
+  body.light-mode .workplace-item h3,
+  body.light-mode .workplace-item p {
+    color: #313131;
   }
   
