@@ -1,0 +1,12 @@
+.results-page {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .workplace-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
