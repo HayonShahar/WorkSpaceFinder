@@ -2,10 +2,9 @@ package com.workSpaceFinder.server.controllers;
 
 import com.workSpaceFinder.server.models.WorkSpace;
 import com.workSpaceFinder.server.services.WorkSpaceService;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
 
 import java.util.Map;
 
@@ -13,22 +12,36 @@ import java.util.Map;
 @RequestMapping("/api/workSpace")
 public class WorkSpaceController {
 
-    private final WorkSpaceService workSpaceService;
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
-    public WorkSpaceController(WorkSpaceService workSpaceService) {
-        this.workSpaceService = workSpaceService;
+    private WorkSpaceService workSpaceService;
+
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> createWorkSpace(@RequestBody WorkSpace workSpace) {
+        Map<String, Object> response = workSpaceService.createWorkSpace(workSpace);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/")
-    public Map<String, Object> saveNewSpace(@RequestBody WorkSpace workSpaces) {
-
-        logger.error(String.valueOf(workSpaces));
-        System.out.println(workSpaces);
-        return workSpaceService.saveNewSpace(workSpaces);
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getAllWorkSpaces() {
+        Map<String, Object> response = workSpaceService.getAllWorkSpaces();
+        return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> getWorkSpaceById(@PathVariable Long id) {
+        Map<String, Object> response = workSpaceService.getWorkSpaceById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> updateWorkSpace(@PathVariable Long id, @RequestBody WorkSpace workSpace) {
+        Map<String, Object> response = workSpaceService.updateWorkSpace(id, workSpace);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> deleteWorkSpace(@PathVariable Long id) {
+        Map<String, Object> response = workSpaceService.deleteWorkSpace(id);
+        return ResponseEntity.ok(response);
+    }
 }
-
-

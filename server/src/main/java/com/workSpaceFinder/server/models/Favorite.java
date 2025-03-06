@@ -10,6 +10,7 @@ public class Favorite {
     @Column(name = "id")
     Long id;
     Long user_id;
+    @Column(name = "work_space_id")
     Long workSpace_id;
 
     Favorite(){}
@@ -37,5 +38,14 @@ public class Favorite {
 
     public void setWorkSpace_id(Long workSpace_id) {
         this.workSpace_id = workSpace_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Favorite{" +
+                "id=" + id +
+                ", user_id=" + user_id +
+                ", workSpace_id=" + workSpace_id +
+                '}';
     }
 }
