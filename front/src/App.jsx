@@ -7,23 +7,27 @@ import Footer from './components/Home/Footer';
 import Header from './components/Home/Header';
 import AddWorkplace from './components/Add/AddWorkplace';  
 import DarkModeToggle from './components/Home/DarkModeToggle';
+import ResultsPage from './pages/ResultsPage'; 
+import WorkplacePage from './pages/WorkplacePage'; // Import WorkplacePage
 import './App.css'; 
 
 const App = () => {
   return (
-    <Router>  {/* Wrap the whole app in Router */}
+    <Router>  
       <div>
         <Header />
         <DarkModeToggle />
-        <Routes>  {/* Define routes here */}
+        <Routes>  
           <Route path="/" element={
             <>
-              <HeroSection />  {/* Keep Hero Section */}
+              <HeroSection />  
               <FeaturesSection />
               <SearchSection />
             </>
           } />
-          <Route path="/addworkplace" element={<AddWorkplace />} /> {/* Add the AddWorkplace route */}
+          <Route path="/addworkplace" element={<AddWorkplace />} /> 
+          <Route path="/results" element={<ResultsPage />} />
+          <Route path="/workplace/:id" element={<WorkplacePage />} /> {/* WorkplacePage route */}
         </Routes>
         <Footer />
       </div>

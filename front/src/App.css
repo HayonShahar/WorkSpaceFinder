@@ -1,6 +1,5 @@
 /* Reset default browser styles */
 * {
-  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
@@ -9,7 +8,7 @@
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f8f9fa;
-  color: #dbdbdb;
+  color: #313131;
   line-height: 1.6;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -17,26 +16,71 @@ body {
 /* Dark mode styles */
 body.dark-mode {
   background-color: #121212;
-  color: #e0e0e0; /* Lighter text color in dark mode */
+  color: #e0e0e0;
 }
 
-/* Dark mode input fields */
-body.dark-mode input,
-body.dark-mode textarea,
-body.dark-mode select {
-  background-color: #2c2c2c;
-  color: #e0e0e0; /* Lighter text color in dark mode */
-  border: 1px solid #555;
+/* App container - Makes footer stay at bottom */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Dark mode button */
-body.dark-mode button {
-  background-color: #f1c40f;
-  color: black;
+/* Content wrapper for pages */
+.content {
+  flex: 1;
 }
 
-body.dark-mode button:hover {
-  background-color: #d4a007;
+/* Header */
+.header {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Footer - Now sticks to bottom */
+.footer-container {
+  background-color: #181818;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Results Page */
+.results-page {
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.workplace-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Workplace Card */
+.workplace-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  text-align: center;
+}
+
+body.dark-mode .workplace-card {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
 }
 
 /* Dark mode elements */
@@ -45,12 +89,12 @@ body.dark-mode .features-container,
 body.dark-mode .footer-container,
 body.dark-mode .header {
   background-color: #1e1e1e;
-  color: #e0e0e0; /* Lighter text color in dark mode */
+  color: #e0e0e0;
 }
 
 body.dark-mode .feature-item {
   background-color: #eeeeee;
-  color: #e0e0e0; /* Lighter text color in dark mode */
+  color: #e0e0e0;
 }
 
 body.dark-mode .hero-container {
@@ -67,7 +111,7 @@ body.dark-mode .footer-container {
 
 /* Dark mode links */
 body.dark-mode .nav ul li a {
-  color: #e0e0e0; /* Lighter link color */
+  color: #e0e0e0;
 }
 
 body.dark-mode .nav ul li a:hover {
@@ -79,28 +123,58 @@ body.dark-mode .nav ul li a:hover {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #333;
-  color: white;
   border: none;
   padding: 12px 16px;
   font-size: 16px;
   border-radius: 50px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.dark-mode-toggle:hover {
-  background-color: #555;
-}
-
-/* Adjust button for dark mode */
+/* Dark mode toggle button styles */
 body.dark-mode .dark-mode-toggle {
-  background-color: white;
-  color: black;
+  background-color: white; /* White background in dark mode */
+  color: black; /* Black text in dark mode */
 }
 
 body.dark-mode .dark-mode-toggle:hover {
-  background-color: #ddd;
+  background-color: #f1f1f1; /* Lighter gray on hover */
+}
+
+body.light-mode .dark-mode-toggle {
+  background-color: #333; /* Dark gray background in light mode */
+  color: white; /* White text in light mode */
+}
+
+body.light-mode .dark-mode-toggle:hover {
+  background-color: #555; /* Lighter dark gray on hover */
+}
+
+/* General buttons (dark in light mode, yellow in dark mode) */
+button, .btn {
+  background-color: #333; /* Dark for light mode */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}
+
+button:hover, .btn:hover {
+  background-color: #555; /* Lighter dark gray on hover */
+}
+
+/* Dark mode buttons (yellow) */
+body.dark-mode button,
+body.dark-mode .btn {
+  background-color: #f1c40f; /* Dark yellow for dark mode */
+  color: black;
+}
+
+body.dark-mode button:hover,
+body.dark-mode .btn:hover {
+  background-color: #d4a007;
 }
 
 /* Mobile responsiveness */

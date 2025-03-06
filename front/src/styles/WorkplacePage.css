@@ -1,0 +1,22 @@
+.workplace-page {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .workplace-page img {
+    width: 100%;
+    height: auto;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  
+  .workplace-page h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .workplace-page p {
+    font-size: 1.1rem;
+    margin: 8px 0;
+  }
+  
