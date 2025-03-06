@@ -21,7 +21,7 @@ const ResultsPage = () => {
         location: 'Zurich, Switzerland',
         description: 'A quiet spot with great coffee and free Wi-Fi.',
         rating: 4.5,
-        imageUrl: 'https://media.istockphoto.com/id/1400194993/photo/cappuccino-art.jpg?s=1024x1024&w=is&k=20&c=i3jaDBeWPUBrDC7qU4-sb1FuxcpbDvlglGjQw7AYuf0=', // Placeholder image
+        imageUrl: 'https://hips.hearstapps.com/hmg-prod/images/14bugatti-divo-99leadgallery-1535035005.jpg?crop=0.941xw:0.864xh;0.0423xw,0.136xh&resize=2048:*', // Placeholder image
         type: 'cafe',
         address: '123 Coffee St, Zurich, Switzerland',
       },

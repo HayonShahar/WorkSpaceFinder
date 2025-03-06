@@ -8,7 +8,7 @@ import Header from './components/Home/Header';
 import AddWorkplace from './components/Add/AddWorkplace';  
 import DarkModeToggle from './components/Home/DarkModeToggle';
 import ResultsPage from './pages/ResultsPage'; 
-import WorkplacePage from './pages/WorkplacePage'; // Import the WorkplacePage
+import WorkplacePage from './pages/WorkplacePage'; // Import WorkplacePage
 import './App.css'; 
 
 const App = () => {
@@ -27,7 +27,7 @@ const App = () => {
           } />
           <Route path="/addworkplace" element={<AddWorkplace />} /> 
           <Route path="/results" element={<ResultsPage />} />
-          <Route path="/workplace/:id" element={<WorkplacePage />} /> {/* Route for WorkplacePage */}
+          <Route path="/workplace/:id" element={<WorkplacePage />} /> {/* WorkplacePage route */}
         </Routes>
         <Footer />
       </div>
