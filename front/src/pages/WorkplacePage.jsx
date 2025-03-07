@@ -106,11 +106,11 @@ const WorkplacePage = () => {
           <div className="maps-links">
             <h3>Get Directions:</h3>
             <p>
-              <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">Google Maps</a> | 
+              <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">Google Maps</a> |
               <a href={wazeUrl} target="_blank" rel="noopener noreferrer">Waze</a>
             </p>
           </div>
-          
+
           {workplace.imageUrl && <img src={workplace.imageUrl} alt={workplace.name} className="workplace-image" />}
 
 
