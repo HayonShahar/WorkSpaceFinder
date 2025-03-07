@@ -102,8 +102,6 @@ const WorkplacePage = () => {
           <p><strong>Address:</strong> {workplace.address}</p>
           <p><strong>Description:</strong> {workplace.description}</p>
 
-          {workplace.imageUrl && <img src={workplace.imageUrl} alt={workplace.name} className="workplace-image" />}
-
           {/* Links to Google Maps and Waze */}
           <div className="maps-links">
             <h3>Get Directions:</h3>
@@ -112,6 +110,9 @@ const WorkplacePage = () => {
               <a href={wazeUrl} target="_blank" rel="noopener noreferrer">Waze</a>
             </p>
           </div>
+          
+          {workplace.imageUrl && <img src={workplace.imageUrl} alt={workplace.name} className="workplace-image" />}
+
 
           {/* Rating System */}
           <div className="rating-container">
