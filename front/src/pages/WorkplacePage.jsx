@@ -72,10 +72,7 @@ const WorkplacePage = () => {
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
-
-    conaoles.log(commentData);
   };
-
 
   // Handle rating hover
   const handleMouseEnter = (index) => {
@@ -91,6 +88,11 @@ const WorkplacePage = () => {
     setRating(index + 1); // Set the actual rating when clicked
   };
 
+  // Google Maps and Waze URLs
+  const encodedAddress = encodeURIComponent(workplace.address);
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+  const wazeUrl = `https://www.waze.com/ul?q=${encodedAddress}&navigate=yes`;
+
   return (
     <div className="workplace-page">
       {workplace ? (
@@ -101,6 +103,15 @@ const WorkplacePage = () => {
           <p><strong>Description:</strong> {workplace.description}</p>
 
           {workplace.imageUrl && <img src={workplace.imageUrl} alt={workplace.name} className="workplace-image" />}
+
+          {/* Links to Google Maps and Waze */}
+          <div className="maps-links">
+            <h3>Get Directions:</h3>
+            <p>
+              <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">Google Maps</a> | 
+              <a href={wazeUrl} target="_blank" rel="noopener noreferrer">Waze</a>
+            </p>
+          </div>
 
           {/* Rating System */}
           <div className="rating-container">
@@ -162,6 +173,8 @@ const WorkplacePage = () => {
               <button type="submit">Post Comment</button>
             </form>
           </div>
+
+
         </>
       ) : (
         <p>Workplace not found</p>
