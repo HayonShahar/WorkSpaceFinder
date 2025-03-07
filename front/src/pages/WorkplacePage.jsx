@@ -9,16 +9,31 @@ const WorkplacePage = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [userName, setUserName] = useState(""); // User input for name
-  const [rating, setRating] = useState(null); // Store rating value
+  const [rating, setRating] = useState(null); // Store user rating
   const [hoverRating, setHoverRating] = useState(null); // For hover effect
+  const [averageRating, setAverageRating] = useState(null); // Store average rating
 
-  // Fetch comments when the component mounts
+  // Fetch comments and ratings when the component mounts
   useEffect(() => {
     if (workplace) {
+      // Fetch comments for the workplace
       fetch(`http://localhost:8080/api/comments/${workplace.id}`)
         .then((res) => res.json())
         .then((data) => setComments(data))
         .catch((err) => console.error("Error fetching comments:", err));
+
+      // Fetch all ratings for the workplace and calculate average
+      fetch(`http://localhost:8080/api/ratings/${workplace.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.length > 0) {
+            // Calculate average rating
+            const totalRating = data.reduce((sum, rating) => sum + rating, 0);
+            const avgRating = totalRating / data.length;
+            setAverageRating(avgRating); // Set average rating
+          }
+        })
+        .catch((err) => console.error("Error fetching ratings:", err));
     }
   }, [workplace]);
 
@@ -57,7 +72,10 @@ const WorkplacePage = () => {
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
+
+    conaoles.log(commentData);
   };
+
 
   // Handle rating hover
   const handleMouseEnter = (index) => {
@@ -102,6 +120,13 @@ const WorkplacePage = () => {
             </div>
             {rating && <p className="rated-message">You rated this workplace {rating} out of 5 stars!</p>}
           </div>
+
+          {/* Display Average Rating */}
+          {averageRating !== null && (
+            <div className="average-rating">
+              <h3>Average Rating: {averageRating.toFixed(1)} / 5</h3>
+            </div>
+          )}
 
           {/* Comments Section */}
           <div className="comments-section">
