@@ -50,14 +50,17 @@ public class RateService {
 
     public Map<String, Object> getRateById(Long id) {
         Map<String, Object> response = new HashMap<>();
-        Optional<Rate> rate = rateRepository.findById(id);
-        if (rate.isPresent()) {
-            response.put("rate", rate.get());
+        List<Rate> rates = rateRepository.findByWorkSpaceId(id);
+
+        if (!rates.isEmpty()) {
+            response.put("ratings", rates);
         } else {
             response.put("message", "Rating not found.");
         }
+
         return response;
     }
+
 
     public Map<String, Object> updateRate(Long id, Rate updatedRate) {
         Map<String, Object> response = new HashMap<>();

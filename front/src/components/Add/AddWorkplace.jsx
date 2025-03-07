@@ -1,17 +1,60 @@
 import React, { useState } from 'react';
+import axios from 'axios'; 
+
 import '../../styles/AddWorkplace.css';
 
 const AddWorkplace = () => {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [type, setType] = useState('');
-    const [image_url, setImageUrl] = useState(null);  // Make sure the state variable is named image_url
+    const [file, setFile] = useState('');
     const [description, setDescription] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        if (!file) {
+            setErrorMessage("Something went wrong with photo upload");
+            return;
+        }
+
         e.preventDefault();
-        // Add logic to handle form submission
-        console.log({ name, address, type, image_url, description });  // Ensure image_url is used here
+
+        const formData = new FormData();
+        const UPLOAD_PRESET = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+        console.log(UPLOAD_PRESET);
+
+        formData.append('file', file); 
+        formData.append('folder', 'workspaces');
+        formData.append('upload_preset', UPLOAD_PRESET);
+
+        try {
+            const imageUploadResponse = await axios.post(
+                'https://api.cloudinary.com/v1_1/dbx2lizfn/image/upload',
+                formData
+            );
+            const uploadedImageUrl = imageUploadResponse.data.secure_url;
+
+            const workplaceData = {
+                name,
+                address,
+                type,
+                description,
+                image_url: uploadedImageUrl
+            };
+
+            const serverResponse = await axios.post('http://localhost:8080/api/workSpace', workplaceData);
+            console.log('Workplace added successfully:', serverResponse.data);
+
+            setName('');
+            setAddress('');
+            setType('');
+            setDescription('');
+            setFile('');
+            setErrorMessage('');
+        } catch (error) {
+            console.error('Error uploading image or saving workplace:', error);
+            setErrorMessage("There was an error uploading or saving the workplace.");
+        }
     };
 
     return (
@@ -55,12 +98,9 @@ const AddWorkplace = () => {
                         <option value="OFFICE">OFFICE</option>
                         <option value="CAFE">CAFE</option>
                         <option value="LIBRARY">LIBRARY</option>
-
                     </select>
                 </div>
 
-
-                {/* Description Box */}
                 <div className="form-group">
                     <label htmlFor="description">Description</label>
                     <textarea
@@ -78,11 +118,12 @@ const AddWorkplace = () => {
                     <input
                         type="file"
                         id="image_url"
-                        onChange={(e) => setImageUrl(e.target.files[0])}  // Ensure image_url is used here
+                        onChange={(e) => setFile(e.target.files[0])}
                     />
                 </div>
 
                 <button type="submit">Add Workplace</button>
+                <span className='errorMessage'>{errorMessage}</span>
             </form>
         </div>
     );
