@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import '../styles/WorkplacePage.css';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import "../styles/WorkplacePage.css";
 
 const WorkplacePage = () => {
   const location = useLocation();
@@ -8,39 +8,66 @@ const WorkplacePage = () => {
 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [userName, setUserName] = useState(""); // User input for name
-  const [rating, setRating] = useState(null); // Store user rating
-  const [hoverRating, setHoverRating] = useState(null); // For hover effect
-  const [averageRating, setAverageRating] = useState(null); // Store average rating
+  const [userName, setUserName] = useState("");
+  const [rating, setRating] = useState(null);
+  const [hoverRating, setHoverRating] = useState(null);
+  const [averageRating, setAverageRating] = useState(null);
+  const [loadingComments, setLoadingComments] = useState(true);
+  const [loadingRatings, setLoadingRatings] = useState(true);
+  const [error, setError] = useState("");
 
-  // Fetch comments and ratings when the component mounts
+  // Fetch comments when the component mounts
   useEffect(() => {
-    if (workplace) {
-      // Fetch comments for the workplace
-      fetch(`http://localhost:8080/api/comments/${workplace.id}`)
-        .then((res) => res.json())
-        .then((data) => setComments(data))
-        .catch((err) => console.error("Error fetching comments:", err));
+    if (!workplace) return;
 
-      // Fetch all ratings for the workplace and calculate average
-      fetch(`http://localhost:8080/api/ratings/${workplace.id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data && data.length > 0) {
-            // Calculate average rating
-            const totalRating = data.reduce((sum, rating) => sum + rating, 0);
-            const avgRating = totalRating / data.length;
-            setAverageRating(avgRating); // Set average rating
-          }
-        })
-        .catch((err) => console.error("Error fetching ratings:", err));
-    }
+    console.log("Workplace ID:", workplace?.id);
+
+    // Fetch comments
+    fetch(`http://localhost:8080/api/ratings/workspace/${workplace.id}/comments`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Comments not found");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Fetched Comments:", data);
+        
+        // Extract the comments array from the response
+        // If data has a comments property that is an array, use it
+        // Otherwise, check if data itself is an array
+        const commentsArray = data && data.comments && Array.isArray(data.comments) 
+          ? data.comments 
+          : (Array.isArray(data) ? data : []);
+        
+        console.log("Comments array:", commentsArray);
+        setComments(commentsArray);
+      })
+      .catch((err) => {
+        console.error("Error fetching comments:", err);
+        setError("Error fetching comments");
+      })
+      .finally(() => setLoadingComments(false));
+
+    // Fetch ratings and calculate average - Uncomment when ratings API is ready
+    // fetch(`http://localhost:8080/api/ratings/workspace/${workplace.id}`)
+    //   .then((res) => res.ok ? res.json() : Promise.reject("Ratings not found"))
+    //   .then((data) => {
+    //     if (data.length > 0) {
+    //       const avgRating = data.reduce((sum, r) => sum + r.rating, 0) / data.length;
+    //       setAverageRating(avgRating);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error("Error fetching ratings:", err);
+    //     setError("Error fetching ratings");
+    //   })
+    //   .finally(() => setLoadingRatings(false));
   }, [workplace]);
 
-  // Handle submitting a new comment
+  // Handle comment submission
   const handleSubmitComment = async (e) => {
     e.preventDefault();
-
     if (!userName || !newComment) {
       alert("Please enter your name and a comment!");
       return;
@@ -48,48 +75,121 @@ const WorkplacePage = () => {
 
     const commentData = {
       workplaceId: workplace.id,
-      userName: userName,
+      userName,
       text: newComment,
     };
 
     try {
       const response = await fetch("http://localhost:8080/api/comments", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(commentData),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to submit comment");
-      }
+      if (!response.ok) throw new Error("Failed to submit comment");
 
       const data = await response.json();
-      setComments([data, ...comments]); // Add new comment to the top
-      setNewComment(""); // Clear input
-      setUserName(""); // Clear name input
+      console.log("New Comment Added:", data);
+      
+      // Add the new comment to the top of the comments list
+      // If the API returns a comment object, convert it to a string matching your existing format
+      const newCommentString = typeof data === 'object' && data.text ? data.text : newComment;
+      setComments(prevComments => [newCommentString, ...prevComments]);
+      
+      // Clear the form
+      setNewComment("");
+      setUserName("");
     } catch (error) {
       console.error("Error submitting comment:", error);
+      alert("Failed to submit comment. Please try again.");
     }
   };
 
-  // Handle rating hover
-  const handleMouseEnter = (index) => {
-    setHoverRating(index + 1); // Set hover rating
+  // Handle rating submission
+  const handleSubmitRating = async () => {
+    if (!rating) {
+      alert("Please select a rating!");
+      return;
+    }
+
+    const ratingData = {
+      workplaceId: workplace.id,
+      userId: 1, // Replace with actual user ID
+      rating,
+      comment: "User rating",
+      noiseLevel: 0, // Adjust if needed
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/ratings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ratingData),
+      });
+
+      if (!response.ok) throw new Error("Failed to submit rating");
+
+      // Recalculate average rating properly
+      setAverageRating((prevAvg) => {
+        if (prevAvg === null) return rating;
+        const totalComments = comments.length || 1;
+        const newTotal = (prevAvg * totalComments + rating) / (totalComments + 1);
+        return newTotal;
+      });
+
+      alert("Rating submitted successfully!");
+
+    } catch (error) {
+      console.error("Error submitting rating:", error);
+      alert("Failed to submit rating. Please try again.");
+    }
   };
 
-  const handleMouseLeave = () => {
-    setHoverRating(null); // Reset hover rating when mouse leaves
+  // Render a comment based on its type
+  const renderComment = (comment, index) => {
+    console.log("Rendering comment:", comment);
+    
+    // If comment is just a string
+    if (typeof comment === 'string') {
+      return (
+        <div key={`comment-${index}`} className="comment">
+          <p>{comment}</p>
+        </div>
+      );
+    }
+    
+    // If comment is an object with expected properties
+    if (typeof comment === 'object' && comment !== null) {
+      // Try to determine the text field (might be text, content, or message)
+      const commentText = comment.text || comment.content || comment.message || "No comment text";
+      
+      // Try to determine the username field
+      const username = comment.userName || comment.name || "Anonymous";
+      
+      // Try to determine the timestamp
+      const timestamp = comment.timestamp || comment.createdAt || comment.date;
+      
+      return (
+        <div key={`comment-${index}`} className="comment">
+          <p><strong>{username}:</strong> {commentText}</p>
+          {timestamp && (
+            <p className="timestamp">
+              {new Date(timestamp).toLocaleString()}
+            </p>
+          )}
+        </div>
+      );
+    }
+    
+    // Fallback for unexpected comment format
+    return (
+      <div key={`comment-${index}`} className="comment">
+        <p>Invalid comment format</p>
+      </div>
+    );
   };
 
-  // Handle rating click
-  const handleRatingClick = (index) => {
-    setRating(index + 1); // Set the actual rating when clicked
-  };
-
-  // Google Maps and Waze URLs
-  const encodedAddress = encodeURIComponent(workplace.address);
+  const encodedAddress = encodeURIComponent(workplace?.address || "");
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
   const wazeUrl = `https://www.waze.com/ul?q=${encodedAddress}&navigate=yes`;
 
@@ -102,7 +202,6 @@ const WorkplacePage = () => {
           <p><strong>Address:</strong> {workplace.address}</p>
           <p><strong>Description:</strong> {workplace.description}</p>
 
-          {/* Links to Google Maps and Waze */}
           <div className="maps-links">
             <h3>Get Directions:</h3>
             <p>
@@ -113,8 +212,6 @@ const WorkplacePage = () => {
 
           {workplace.imageUrl && <img src={workplace.imageUrl} alt={workplace.name} className="workplace-image" />}
 
-
-          {/* Rating System */}
           <div className="rating-container">
             <h2>Rate this Workplace:</h2>
             <div className="stars">
@@ -122,60 +219,58 @@ const WorkplacePage = () => {
                 <span
                   key={index}
                   className={`star ${hoverRating >= index + 1 || rating >= index + 1 ? 'filled' : ''}`}
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={handleMouseLeave}
-                  onClick={() => handleRatingClick(index)}
+                  onMouseEnter={() => setHoverRating(index + 1)}
+                  onMouseLeave={() => setHoverRating(null)}
+                  onClick={() => setRating(index + 1)}
                 >
                   ★
                 </span>
               ))}
             </div>
             {rating && <p className="rated-message">You rated this workplace {rating} out of 5 stars!</p>}
+            <button onClick={handleSubmitRating}>Submit Rating</button>
           </div>
 
-          {/* Display Average Rating */}
           {averageRating !== null && (
             <div className="average-rating">
               <h3>Average Rating: {averageRating.toFixed(1)} / 5</h3>
             </div>
           )}
 
-          {/* Comments Section */}
           <div className="comments-section">
-            <h2>Comments</h2>
+            <div className="add-comment">
+              <h2>Add a Comment</h2>
+              <form onSubmit={handleSubmitComment} className="comment-form">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  required
+                />
+                <textarea
+                  placeholder="Write a comment..."
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  required
+                ></textarea>
+                <button type="submit">Post Comment</button>
+              </form>
+            </div>
 
-            {/* Display Existing Comments */}
-            {comments.length > 0 ? (
-              comments.map((comment) => (
-                <div key={comment.id} className="comment">
-                  <p><strong>{comment.userName}:</strong> {comment.text}</p>
-                  <p className="timestamp">{new Date(comment.timestamp).toLocaleString()}</p>
-                </div>
-              ))
-            ) : (
-              <p>No comments yet. Be the first to comment!</p>
-            )}
-
-            {/* Add a New Comment */}
-            <form onSubmit={handleSubmitComment} className="comment-form">
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                required
-              />
-              <textarea
-                placeholder="Write a comment..."
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                required
-              ></textarea>
-              <button type="submit">Post Comment</button>
-            </form>
+            <div className="existing-comments">
+              <h2>Existing Comments</h2>
+              {loadingComments ? (
+                <p>Loading comments...</p>
+              ) : comments.length > 0 ? (
+                comments.map((comment, index) => renderComment(comment, index))
+              ) : (
+                <p>No comments yet. Be the first to comment!</p>
+              )}
+              
+              {error && <p className="error-message">{error}</p>}
+            </div>
           </div>
-
-
         </>
       ) : (
         <p>Workplace not found</p>
