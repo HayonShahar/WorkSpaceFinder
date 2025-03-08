@@ -20,11 +20,12 @@ public class RateController {
         this.rateService = rateService;
     }
 
-    @PostMapping
-    public ResponseEntity<Map<String, Object>> createRating(@RequestBody Rate rate) {
-        Map<String, Object> response = rateService.createRate(rate);
-        return new ResponseEntity<>(response, response.containsKey("rate") ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST);
-    }
+  @PostMapping
+public ResponseEntity<Map<String, Object>> createRating(@RequestBody Rate rate) {
+    Map<String, Object> response = rateService.createRate(rate);
+    return response.containsKey("rate") ? ResponseEntity.status(HttpStatus.CREATED).body(response)
+                                         : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+}
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllRatings() {
@@ -40,19 +41,17 @@ public class RateController {
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateRating(@PathVariable Long id, @RequestBody Rate updatedRate) {
-        Map<String, Object> response = rateService.updateRate(id, updatedRate);
-        return response.containsKey("rate")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
+ @PutMapping("/{id}")
+public ResponseEntity<Map<String, Object>> updateRating(@PathVariable Long id, @RequestBody Rate updatedRate) {
+    Map<String, Object> response = rateService.updateRate(id, updatedRate);
+    return response.containsKey("rate") ? ResponseEntity.ok(response)
+                                         : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deleteRating(@PathVariable Long id) {
-        Map<String, Object> response = rateService.deleteRate(id);
-        return response.containsKey("message")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
+  @DeleteMapping("/{id}")
+public ResponseEntity<Map<String, Object>> deleteRating(@PathVariable Long id) {
+    Map<String, Object> response = rateService.deleteRate(id);
+    return response.containsKey("message") ? ResponseEntity.ok(response)
+                                           : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+}
 }
