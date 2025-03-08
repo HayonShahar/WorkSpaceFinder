@@ -1,12 +1,16 @@
 package com.workSpaceFinder.server.services;
 
-import com.workSpaceFinder.server.models.Rate;
-import com.workSpaceFinder.server.repositories.RateRepository;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import com.workSpaceFinder.server.models.Rate;
+import com.workSpaceFinder.server.repositories.RateRepository;
 
 @Service
 public class RateService {
@@ -103,7 +107,38 @@ public class RateService {
         return rateRepository.save(rate);
     }
 
-    public List<Rate> getRatingsByWorkSpaceId(Long workSpaceId) {
-        return rateRepository.findByWorkSpaceId(workSpaceId);
+    public Map<String, Object> getRatingsWithAverage(Long workSpaceId) {
+        Map<String, Object> response = new HashMap<>();
+        
+        // Get all ratings for the workspace
+        List<Rate> ratings = rateRepository.findByWorkSpaceId(workSpaceId);
+        
+        if (!ratings.isEmpty()) {
+            // Calculate the average rating
+            Double averageRating = rateRepository.findAverageRatingByWorkSpaceId(workSpaceId);
+            
+            response.put("ratings", ratings);
+            response.put("averageRating", averageRating);
+        } else {
+            response.put("message", "No ratings found for this workspace.");
+        }
+    
+        return response;
+    }
+    
+    
+
+    public Map<String, Object> getCommentsByWorkSpaceId(Long workSpaceId) {
+        Map<String, Object> response = new HashMap<>();
+        List<String> comments = rateRepository.findCommentsByWorkSpaceId(workSpaceId);
+
+        if (!comments.isEmpty()) {
+            response.put("comments", comments);
+        } else {
+            response.put("message", "No comments found for this workspace.");
+        }
+
+        return response;
     }
 }
+
