@@ -227,6 +227,7 @@ const WorkplacePage = () => {
       {workplace ? (
         <>
           <h1>{workplace.name}</h1>
+          <img src={workplace.image_url}></img>
           <p><strong>Type:</strong> {workplace.type}</p>
           <p><strong>Address:</strong> {workplace.address}</p>
           <p><strong>Description:</strong> {workplace.description}</p>
@@ -293,7 +294,7 @@ const WorkplacePage = () => {
               ) : comments.length > 0 ? (
                 comments.map((comment, index) => renderComment(comment, index))
               ) : (
-                <p id="comments-massage">No comments yet. Be the first to comment!</p>
+                <p>No comments yet. Be the first to comment!</p>
               )}
 
               {error && <p className="error-message">{error}</p>}

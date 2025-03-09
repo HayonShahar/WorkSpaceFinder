@@ -1,0 +1,95 @@
+section {
+    margin-bottom: 40px;
+}
+
+h2, h3, h4 {
+    color: #004f75; 
+}
+
+.text {
+    color: #555;
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+
+#about-us {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#about-us h2 {
+    font-size: 1.8rem;
+}
+
+
+#contact-info {
+    background-color: #f2f9ff; 
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#faq {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#faq h3 {
+    font-size: 1.8rem;
+}
+
+#developers {
+    margin-top: 40px;
+}
+
+#devl{
+display: flex;
+
+}
+
+#developers div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#developers h3 {
+    font-size: 1.6rem;
+    margin-right: 20px;
+}
+
+#photo {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #004f75;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: #004f75;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    #developers div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
