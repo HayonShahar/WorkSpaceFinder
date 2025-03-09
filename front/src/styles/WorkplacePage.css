@@ -148,6 +148,15 @@
   color: gray;
 }
 
+#comments-massage {
+  color: black !important;
+  font-weight: bold;
+}
+
+.comment {
+  color: black !important;
+}
+
 /* Responsiveness */
 @media (max-width: 768px) {
   .comments-section {
