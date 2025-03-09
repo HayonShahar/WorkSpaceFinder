@@ -27,13 +27,13 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> registerUser(@RequestBody User user) {
         Map<String, Object> response = userService.registerUser(user);
-        return new ResponseEntity<>(response, response.containsKey("user") ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> loginUser(@RequestBody User user) {
         Map<String, Object> response = userService.loginUser(user.getEmail(), user.getPassword());
-        return new ResponseEntity<>(response, response.containsKey("user") ? HttpStatus.OK : HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping
@@ -45,24 +45,18 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getUserById(@PathVariable Long id) {
         Map<String, Object> response = userService.getUserById(id);
-        return response.containsKey("user")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         Map<String, Object> response = userService.updateUser(id, updatedUser);
-        return response.containsKey("user")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
         Map<String, Object> response = userService.deleteUser(id);
-        return response.containsKey("message")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

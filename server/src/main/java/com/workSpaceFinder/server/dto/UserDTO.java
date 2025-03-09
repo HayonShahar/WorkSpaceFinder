@@ -10,17 +10,19 @@ public class UserDTO {
     private String last_name;
     private String email;
     private Date dob;
+    private String role;
 
-    public UserDTO(Long id, String first_name, String last_name, String email, Date dob) {
+    public UserDTO(Long id, String first_name, String last_name, String email, Date dob, String role) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.dob = dob;
+        this.role = role;
     }
 
     public static UserDTO fromEntity(User user) {
-        return new UserDTO(user.getId(), user.getFirst_name(), user.getLast_name(), user.getEmail(), user.getDob());
+        return new UserDTO(user.getId(), user.getFirst_name(), user.getLast_name(), user.getEmail(), user.getDob(), user.getRole());
     }
 
     public Long getId() {
@@ -43,6 +45,14 @@ public class UserDTO {
         return dob;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -51,6 +61,7 @@ public class UserDTO {
                 ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 ", dob=" + dob +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

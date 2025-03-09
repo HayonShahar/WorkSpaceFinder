@@ -17,15 +17,18 @@ public class User {
     private String email;
     private Date dob;
     private String password;
+    private String role;
 
     User() {}
 
-    public User(String first_name, String last_name, String email, Date dob, String password) {
+    public User(Long id, String first_name, String last_name, String email, Date dob, String password, String role) {
+        this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.dob = dob;
         this.password = password;
+        this.role = role;
     }
 
     public Long getId() {
@@ -72,6 +75,14 @@ public class User {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -81,6 +92,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", dob=" + dob +
                 ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

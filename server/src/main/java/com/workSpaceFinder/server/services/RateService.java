@@ -30,9 +30,11 @@ public class RateService {
         Optional<Rate> existingRate = rateRepository.findRatingByUserAndWorkSpace(rate.getUser_id(), rate.getWorkSpace_id());
         if (existingRate.isPresent()) {
             response.put("message", "Rating already exists for this workspace by this user.");
+            response.put("success", false);
         } else {
             Rate savedRate = rateRepository.save(rate);
             response.put("message", "Rating created successfully.");
+            response.put("success", true);
             response.put("rate", savedRate);
         }
         return response;
@@ -44,8 +46,10 @@ public class RateService {
 
         if (rates.isEmpty()) {
             response.put("message", "No ratings found.");
+            response.put("success", false);
         } else {
             response.put("ratings", rates);
+            response.put("success", true);
         }
         return response;
     }
@@ -56,8 +60,10 @@ public class RateService {
 
         if (!rates.isEmpty()) {
             response.put("ratings", rates);
+            response.put("success", true);
         } else {
             response.put("message", "Rating not found.");
+            response.put("success", false);
         }
 
         return response;
@@ -76,8 +82,10 @@ public class RateService {
             Rate savedRate = rateRepository.save(rate);
             response.put("message", "Rating updated successfully.");
             response.put("rate", savedRate);
+            response.put("success", true);
         } else {
             response.put("message", "Rating not found.");
+            response.put("success", false);
         }
         return response;
     }
@@ -88,8 +96,10 @@ public class RateService {
         if (rate.isPresent()) {
             rateRepository.deleteById(id);
             response.put("message", "Rating deleted successfully.");
+            response.put("success", true);
         } else {
             response.put("message", "Rating not found.");
+            response.put("success", false);
         }
         return response;
     }

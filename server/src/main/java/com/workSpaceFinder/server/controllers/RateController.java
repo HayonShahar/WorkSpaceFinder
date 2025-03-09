@@ -49,16 +49,12 @@ public class RateController {
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateRating(@PathVariable Long id, @RequestBody Rate updatedRate) {
         Map<String, Object> response = rateService.updateRate(id, updatedRate);
-        return response.containsKey("rate")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deleteRating(@PathVariable Long id) {
         Map<String, Object> response = rateService.deleteRate(id);
-        return response.containsKey("message")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

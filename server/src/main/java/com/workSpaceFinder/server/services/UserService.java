@@ -3,6 +3,7 @@ package com.workSpaceFinder.server.services;
 import com.workSpaceFinder.server.dto.UserDTO;
 import com.workSpaceFinder.server.models.User;
 import com.workSpaceFinder.server.repositories.UserRepository;
+import com.workSpaceFinder.server.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,13 @@ public class UserService {
 
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             response.put("message", "Email already exists.");
+            response.put("success", false);
             return response;
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
+        response.put("success", true);
         response.put("message", "User registered successfully.");
         response.put("user", UserDTO.fromEntity(savedUser));
         return response;
@@ -39,10 +42,15 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByEmail(email);
 
         if (userOptional.isPresent() && passwordEncoder.matches(password, userOptional.get().getPassword())) {
+            String token = JwtUtil.generateToken(userOptional.get().getEmail(), userOptional.get().getId().toString());
+
+            response.put("token", token);
             response.put("message", "Login successful.");
+            response.put("success", true);
             response.put("user", UserDTO.fromEntity(userOptional.get()));
         } else {
             response.put("message", "Invalid email or password.");
+            response.put("success", false);
         }
 
         return response;
@@ -52,12 +60,15 @@ public class UserService {
         Map<String, Object> response = new HashMap<>();
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
+            response.put("success", false);
             response.put("message", "No users found.");
         } else {
             List<UserDTO> userDTOs = new ArrayList<>();
             for (User user : users) {
                 userDTOs.add(UserDTO.fromEntity(user));
             }
+
+            response.put("success", true);
             response.put("users", userDTOs);
         }
         return response;
@@ -67,9 +78,11 @@ public class UserService {
         Map<String, Object> response = new HashMap<>();
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
+            response.put("success", true);
             response.put("user", UserDTO.fromEntity(userOptional.get()));
         } else {
             response.put("message", "User not found.");
+            response.put("success", false);
         }
         return response;
     }
@@ -85,8 +98,10 @@ public class UserService {
             user.setDob(updatedUser.getDob());
             userRepository.save(user);
             response.put("user", UserDTO.fromEntity(user));
+            response.put("success", true);
         } else {
             response.put("message", "User not found.");
+            response.put("success", false);
         }
         return response;
     }
@@ -96,8 +111,10 @@ public class UserService {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             response.put("message", "User deleted successfully.");
+            response.put("success", true);
         } else {
             response.put("message", "User not found.");
+            response.put("success", false);
         }
         return response;
     }

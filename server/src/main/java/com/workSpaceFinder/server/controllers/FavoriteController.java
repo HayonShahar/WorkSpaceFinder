@@ -23,7 +23,7 @@ public class FavoriteController {
     @PostMapping
     public ResponseEntity<Map<String, Object>> createFavorite(@RequestBody Favorite favorite) {
         Map<String, Object> response = favoriteService.createFavorite(favorite);
-        return new ResponseEntity<>(response, response.containsKey("favorite") ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping
@@ -35,24 +35,18 @@ public class FavoriteController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getFavoriteById(@PathVariable Long id) {
         Map<String, Object> response = favoriteService.getFavoriteById(id);
-        return response.containsKey("favorite")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateFavorite(@PathVariable Long id, @RequestBody Favorite updatedFavorite) {
         Map<String, Object> response = favoriteService.updateFavorite(id, updatedFavorite);
-        return response.containsKey("favorite")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deleteFavorite(@PathVariable Long id) {
         Map<String, Object> response = favoriteService.deleteFavorite(id);
-        return response.containsKey("message")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
