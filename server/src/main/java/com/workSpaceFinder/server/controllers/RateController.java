@@ -28,66 +28,37 @@ public class RateController {
         this.rateService = rateService;
     }
 
-    // Create a new rating
     @PostMapping
     public ResponseEntity<Map<String, Object>> createRating(@RequestBody Rate rate) {
         Map<String, Object> response = rateService.createRate(rate);
-        return response.containsKey("rate") 
-                ? ResponseEntity.status(HttpStatus.CREATED).body(response)
-                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // Get all ratings
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllRatings() {
         Map<String, Object> response = rateService.getAllRates();
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // Get rating by ID
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getRatingById(@PathVariable Long id) {
         Map<String, Object> response = rateService.getRateById(id);
-        return response.containsKey("rate") 
-                ? ResponseEntity.ok(response) 
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // Update rating by ID
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateRating(@PathVariable Long id, @RequestBody Rate updatedRate) {
         Map<String, Object> response = rateService.updateRate(id, updatedRate);
-        return response.containsKey("rate") 
+        return response.containsKey("rate")
                 ? ResponseEntity.ok(response)
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    // Delete rating by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deleteRating(@PathVariable Long id) {
         Map<String, Object> response = rateService.deleteRate(id);
-        return response.containsKey("message") 
+        return response.containsKey("message")
                 ? ResponseEntity.ok(response)
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
-
-    // Fetch comments by workSpaceId (assuming comments are part of the Rate model)
-    @GetMapping("/workspace/{workSpaceId}/comments")
-    public ResponseEntity<Map<String, Object>> getCommentsByWorkSpaceId(@PathVariable Long workSpaceId) {
-        Map<String, Object> response = rateService.getCommentsByWorkSpaceId(workSpaceId);
-        return response.containsKey("comments")
-                ? ResponseEntity.ok(response)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
-
-    @GetMapping("/workspace/{workSpaceId}/ratings")
-public ResponseEntity<Map<String, Object>> getRatingsWithAverage(@PathVariable Long workSpaceId) {
-    Map<String, Object> response = rateService.getRatingsWithAverage(workSpaceId);
-    return response.containsKey("ratings") 
-            ? ResponseEntity.ok(response)
-            : ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-}
-
-
-
 }
