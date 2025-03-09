@@ -293,7 +293,7 @@ const WorkplacePage = () => {
               ) : comments.length > 0 ? (
                 comments.map((comment, index) => renderComment(comment, index))
               ) : (
-                <p>No comments yet. Be the first to comment!</p>
+                <p id="comments-massage">No comments yet. Be the first to comment!</p>
               )}
 
               {error && <p className="error-message">{error}</p>}

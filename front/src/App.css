@@ -1,8 +1,15 @@
-/* Reset default browser styles */
+/* ============================= */
+/* RESET DEFAULT STYLES          */
+/* ============================= */
 * {
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/* ============================= */
+/* BODY STYLES                   */
+/* ============================= */
 
 /* Light mode (default) */
 body {
@@ -20,19 +27,27 @@ body.dark-mode {
   color: #e0e0e0;
 }
 
-/* App container - Makes footer stay at bottom */
+/* ============================= */
+/* APP CONTAINER                 */
+/* ============================= */
+
+
+
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* Content wrapper for pages */
+/* Content wrapper */
 .content {
   flex: 1;
 }
 
-/* Header */
+/* ============================= */
+/* HEADER                        */
+/* ============================= */
+
 .header {
   background-color: #1e1e1e;
   color: #e0e0e0;
@@ -40,9 +55,28 @@ body.dark-mode {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: box-shadow 0.3s ease;
 }
 
-/* Footer - Now sticks to bottom */
+/* Default (Light Mode) - Yellow Shadow */
+.header {
+  box-shadow: 0px 8px 15px rgba(52, 152, 219, 0.59);
+}
+
+/* Light Mode - Light Blue Shadow */
+body.light-mode .header {
+  box-shadow: 0px 8px 15px rgba(0, 255, 255, 0.5);
+}
+
+/* Dark Mode - Cyan/Aqua Glow */
+body.dark-mode .header {
+  box-shadow: 0px 8px 15px rgba(241, 196, 15, 0.59);
+}
+
+/* ============================= */
+/* FOOTER                        */
+/* ============================= */
+
 .footer-container {
   background-color: #181818;
   color: white;
@@ -52,7 +86,15 @@ body.dark-mode {
   margin-top: auto;
 }
 
-/* Results Page */
+/* Dark mode footer */
+body.dark-mode .footer-container {
+  background-color: #181818;
+}
+
+/* ============================= */
+/* RESULTS PAGE                  */
+/* ============================= */
+
 .results-page {
   padding: 20px;
   text-align: center;
@@ -79,12 +121,16 @@ body.dark-mode {
   text-align: center;
 }
 
+/* Dark Mode Workplace Card */
 body.dark-mode .workplace-card {
   background-color: #1e1e1e;
   color: #e0e0e0;
 }
 
-/* Dark mode elements */
+/* ============================= */
+/* DARK MODE STYLING             */
+/* ============================= */
+
 body.dark-mode .add-workplace-container,
 body.dark-mode .features-container,
 body.dark-mode .footer-container,
@@ -106,10 +152,6 @@ body.dark-mode .search-container {
   background-color: #222;
 }
 
-body.dark-mode .footer-container {
-  background-color: #181818;
-}
-
 /* Dark mode links */
 body.dark-mode .nav ul li a {
   color: #e0e0e0;
@@ -118,6 +160,10 @@ body.dark-mode .nav ul li a {
 body.dark-mode .nav ul li a:hover {
   color: #f1c40f;
 }
+
+/* ============================= */
+/* DARK MODE TOGGLE BUTTON       */
+/* ============================= */
 
 /* Floating dark mode toggle button */
 .dark-mode-toggle {
@@ -151,6 +197,10 @@ body.light-mode .dark-mode-toggle:hover {
   background-color: #555; /* Lighter dark gray on hover */
 }
 
+/* ============================= */
+/* BUTTONS                       */
+/* ============================= */
+
 /* General buttons (dark in light mode, yellow in dark mode) */
 button, .btn {
   background-color: #333; /* Dark for light mode */
@@ -178,7 +228,10 @@ body.dark-mode .btn:hover {
   background-color: #d4a007;
 }
 
-/* Mobile responsiveness */
+/* ============================= */
+/* MOBILE RESPONSIVENESS         */
+/* ============================= */
+
 @media (max-width: 768px) {
   .features-list {
     justify-content: center;
