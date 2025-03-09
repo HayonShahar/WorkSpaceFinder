@@ -16,11 +16,17 @@ const WorkplacePage = () => {
   const [loadingRatings, setLoadingRatings] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch comments when the component mounts
+  // Fetch comments and ratings when the component mounts
   useEffect(() => {
-    if (!workplace) return;
+    if (!workplace) {
+      console.error("Workplace data is missing");
+      setError("Workplace data not found");
+      setLoadingComments(false);
+      setLoadingRatings(false);
+      return;
+    }
 
-    console.log("Workplace ID:", workplace?.id);
+    console.log("Workplace ID:", workplace.id, "Full workplace data:", workplace);
 
     // Fetch comments
     fetch(`http://localhost:8080/api/ratings/workspace/${workplace.id}/comments`)
@@ -34,8 +40,6 @@ const WorkplacePage = () => {
         console.log("Fetched Comments:", data);
         
         // Extract the comments array from the response
-        // If data has a comments property that is an array, use it
-        // Otherwise, check if data itself is an array
         const commentsArray = data && data.comments && Array.isArray(data.comments) 
           ? data.comments 
           : (Array.isArray(data) ? data : []);
@@ -45,24 +49,63 @@ const WorkplacePage = () => {
       })
       .catch((err) => {
         console.error("Error fetching comments:", err);
-        setError("Error fetching comments");
+        console.error("Error details:", err.message);
+        setError("Error fetching comments: " + err.message);
       })
       .finally(() => setLoadingComments(false));
 
-    // Fetch ratings and calculate average - Uncomment when ratings API is ready
-    // fetch(`http://localhost:8080/api/ratings/workspace/${workplace.id}`)
-    //   .then((res) => res.ok ? res.json() : Promise.reject("Ratings not found"))
-    //   .then((data) => {
-    //     if (data.length > 0) {
-    //       const avgRating = data.reduce((sum, r) => sum + r.rating, 0) / data.length;
-    //       setAverageRating(avgRating);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.error("Error fetching ratings:", err);
-    //     setError("Error fetching ratings");
-    //   })
-    //   .finally(() => setLoadingRatings(false));
+    // Fetch ratings and calculate average - UPDATED URL HERE
+    fetch(`http://localhost:8080/api/ratings/workspace/${workplace.id}/ratings`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Ratings not found");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Fetched Ratings:", data);
+        
+        // Determine the ratings array format
+        const ratingsArray = Array.isArray(data) ? data : 
+                           (data && Array.isArray(data.ratings) ? data.ratings : []);
+        
+        console.log("Ratings array:", ratingsArray);
+        
+        // Calculate average rating
+        if (ratingsArray.length > 0) {
+          let sum = 0;
+          let count = 0;
+          
+          ratingsArray.forEach(item => {
+            // If item is a number
+            if (typeof item === 'number') {
+              sum += item;
+              count++;
+            } 
+            // If item is an object with rating property
+            else if (item && typeof item === 'object' && 'rating' in item) {
+              sum += item.rating;
+              count++;
+            }
+          });
+          
+          const avgRating = count > 0 ? sum / count : 0;
+          console.log("Average rating calculated:", avgRating);
+          setAverageRating(avgRating);
+        } else if (data && typeof data.averageRating === 'number') {
+          console.log("Average rating from response:", data.averageRating);
+          setAverageRating(data.averageRating);
+        } else {
+          console.log("No ratings available");
+          setAverageRating(0);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching ratings:", err);
+        console.error("Error details:", err.message);
+        setError("Error fetching ratings: " + err.message);
+      })
+      .finally(() => setLoadingRatings(false));
   }, [workplace]);
 
   // Handle comment submission
@@ -129,16 +172,47 @@ const WorkplacePage = () => {
 
       if (!response.ok) throw new Error("Failed to submit rating");
 
-      // Recalculate average rating properly
-      setAverageRating((prevAvg) => {
-        if (prevAvg === null) return rating;
-        const totalComments = comments.length || 1;
-        const newTotal = (prevAvg * totalComments + rating) / (totalComments + 1);
-        return newTotal;
-      });
+      const data = await response.json();
+      console.log("Rating submission response:", data);
+
+      // Instead of calculating locally, refetch the ratings
+      fetch(`http://localhost:8080/api/ratings/workspace/${workplace.id}/ratings`)
+        .then(res => {
+          if (!res.ok) throw new Error("Failed to refresh ratings");
+          return res.json();
+        })
+        .then(ratingData => {
+          console.log("Refreshed ratings after submission:", ratingData);
+          
+          // Determine the ratings array format
+          const ratingsArray = Array.isArray(ratingData) ? ratingData : 
+                             (ratingData && Array.isArray(ratingData.ratings) ? ratingData.ratings : []);
+          
+          // Calculate new average
+          if (ratingsArray.length > 0) {
+            let sum = 0;
+            let count = 0;
+            
+            ratingsArray.forEach(item => {
+              if (typeof item === 'number') {
+                sum += item;
+                count++;
+              } else if (item && typeof item === 'object' && 'rating' in item) {
+                sum += item.rating;
+                count++;
+              }
+            });
+            
+            const avgRating = count > 0 ? sum / count : 0;
+            console.log("Updated average rating:", avgRating);
+            setAverageRating(avgRating);
+          }
+        })
+        .catch(err => {
+          console.error("Error refreshing ratings after submission:", err);
+        });
 
       alert("Rating submitted successfully!");
-
     } catch (error) {
       console.error("Error submitting rating:", error);
       alert("Failed to submit rating. Please try again.");
