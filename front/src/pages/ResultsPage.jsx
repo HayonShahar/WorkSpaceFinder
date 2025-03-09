@@ -189,7 +189,6 @@ const ResultsPage = () => {
         ) : (
           <div className="loader"></div> // Add a loading state or animation here
         )}
-        {/* <div className="loader"></div>  */}
       </div>
     </div>
   );
