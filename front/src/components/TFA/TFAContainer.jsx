@@ -5,10 +5,13 @@ import '../../styles/register.css'
 
 function TFAContainer() {
   return (
-    <div className="rl-container">
-      <TFAHeading />
-      <TFAForm />
+    <div className='rl-warper'>
+      <div className="rl-container">
+        <TFAHeading />
+        <TFAForm />
+      </div>
     </div>
+
   );
 }
 

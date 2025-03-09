@@ -1,12 +1,13 @@
 package com.workSpaceFinder.server.config;
 
-import jakarta.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.sql.DataSource;
+import jakarta.annotation.PostConstruct;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

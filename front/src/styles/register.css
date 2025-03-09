@@ -1,5 +1,5 @@
 .rl-warper{
-    min-height: 100vh;
+    min-height: 75vh;
     display: flex;
     background-image: url("../assets/background.webp");
 }
