@@ -9,9 +9,9 @@ import ResultsPage from './pages/ResultsPage';
 import WorkplacePage from './pages/WorkplacePage'; 
 import RegisterContainer from './components/register/RegisterContainer';
 import LoginContainer from './components/login/LoginContainer';
+import Contact from './pages/Contact';
 import './App.css'; 
 import TFAContainer from './components/TFA/TFAContainer';
-import Promote from './pages/Promote';
 
 const App = () => {
   const location = useLocation();
@@ -29,10 +29,10 @@ const App = () => {
         <Route path="/addworkplace" element={<AddWorkplace />} /> 
         <Route path="/results" element={<ResultsPage />} />
         <Route path="/workplace/:id" element={<WorkplacePage />} />
+        <Route path="/Contact" element={<Contact />} />
         <Route path="/register" element={<RegisterContainer />} />
         <Route path="/login" element={<LoginContainer />} />
         <Route path="/tfa" element={<TFAContainer />} />
-        <Route path="/promote" element={<Promote />} />
       </Routes>
 
       {/* Render Footer only if the current path is NOT '/register', '/login', or '/tfa' */}
