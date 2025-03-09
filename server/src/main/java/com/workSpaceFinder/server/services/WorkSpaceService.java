@@ -22,8 +22,10 @@ public class WorkSpaceService {
             WorkSpace savedWorkSpace = workSpaceRepository.save(workSpace);
             response.put("message", "WorkSpace created successfully.");
             response.put("workSpace", savedWorkSpace);
+            response.put("success", true);
         } catch (Exception e) {
             response.put("message", "Error creating WorkSpace: " + e.getMessage());
+            response.put("success", false);
         }
         return response;
     }
@@ -34,8 +36,10 @@ public class WorkSpaceService {
             List<WorkSpace> workSpaces = workSpaceRepository.findAll();
             response.put("message", "WorkSpaces retrieved successfully.");
             response.put("workSpaces", workSpaces);
+            response.put("success", true);
         } catch (Exception e) {
             response.put("message", "Error retrieving WorkSpaces: " + e.getMessage());
+            response.put("success", false);
         }
         return response;
     }
@@ -46,9 +50,11 @@ public class WorkSpaceService {
             Optional<WorkSpace> workSpace = workSpaceRepository.findById(id);
             if (workSpace.isPresent()) {
                 response.put("message", "WorkSpace found.");
+                response.put("success", true);
                 response.put("workSpace", workSpace.get());
             } else {
                 response.put("message", "WorkSpace not found.");
+                response.put("success", false);
             }
         } catch (Exception e) {
             response.put("message", "Error retrieving WorkSpace: " + e.getMessage());
@@ -73,11 +79,14 @@ public class WorkSpaceService {
                 WorkSpace updatedWorkSpace = workSpaceRepository.save(workSpace);
                 response.put("message", "WorkSpace updated successfully.");
                 response.put("workSpace", updatedWorkSpace);
+                response.put("success", true);
             } else {
                 response.put("message", "WorkSpace not found.");
+                response.put("success", false);
             }
         } catch (Exception e) {
             response.put("message", "Error updating WorkSpace: " + e.getMessage());
+            response.put("success", false);
         }
         return response;
     }
@@ -89,11 +98,14 @@ public class WorkSpaceService {
             if (workSpaceOptional.isPresent()) {
                 workSpaceRepository.deleteById(id);
                 response.put("message", "WorkSpace deleted successfully.");
+                response.put("success", true);
             } else {
                 response.put("message", "WorkSpace not found.");
+                response.put("success", false);
             }
         } catch (Exception e) {
-            response.put("message", "Error deleting WorkSpace: " + e.getMessage());
+            response.put("message", "Error deleting WorkSpace: Please try again later");
+            response.put("success", false);
         }
         return response;
     }
