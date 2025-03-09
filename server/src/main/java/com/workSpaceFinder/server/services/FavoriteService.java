@@ -19,9 +19,15 @@ public class FavoriteService {
 
     public Map<String, Object> createFavorite(Favorite favorite) {
         Map<String, Object> response = new HashMap<>();
-        Favorite savedFavorite = favoriteRepository.save(favorite);
-        response.put("message", "Favorite created successfully.");
-        response.put("favorite", savedFavorite);
+        try {
+            Favorite savedFavorite = favoriteRepository.save(favorite);
+            response.put("message", "Favorite created successfully.");
+            response.put("favorite", savedFavorite);
+            response.put("success", true);
+        }catch (Exception e){
+            response.put("message", "Favorite create went wrong.");
+            response.put("success", false);
+        }
         return response;
     }
 
@@ -30,8 +36,10 @@ public class FavoriteService {
         List<Favorite> favorites = favoriteRepository.findAll();
         if (favorites.isEmpty()) {
             response.put("message", "No favorites found.");
+            response.put("success", false);
         } else {
             response.put("favorites", favorites);
+            response.put("success", true);
         }
         return response;
     }
@@ -41,8 +49,10 @@ public class FavoriteService {
         Optional<Favorite> favoriteOptional = favoriteRepository.findById(id);
         if (favoriteOptional.isPresent()) {
             response.put("favorite", favoriteOptional.get());
+            response.put("success", true);
         } else {
             response.put("message", "Favorite not found.");
+            response.put("success", false);
         }
         return response;
     }
@@ -57,8 +67,10 @@ public class FavoriteService {
             favoriteRepository.save(favorite);
             response.put("message", "Favorite updated successfully.");
             response.put("favorite", favorite);
+            response.put("success", true);
         } else {
             response.put("message", "Favorite not found.");
+            response.put("success", false);
         }
         return response;
     }
@@ -68,8 +80,10 @@ public class FavoriteService {
         if (favoriteRepository.existsById(id)) {
             favoriteRepository.deleteById(id);
             response.put("message", "Favorite deleted successfully.");
+            response.put("success", true);
         } else {
             response.put("message", "Favorite not found.");
+            response.put("success", false);
         }
         return response;
     }
