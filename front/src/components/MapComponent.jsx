@@ -1,55 +1,108 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet'; // Import Leaflet for custom marker styles
+import React, { useEffect, useState } from 'react';
+import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 
-// Mock data for locations in Israel
-const locations = [
-  {
-    id: 1,
-    name: 'Cafe Lotus',
-    address: 'Rothschild Blvd, 5, Tel Aviv',
-    latitude: 32.0658,
-    longitude: 34.7703,
-  },
-  {
-    id: 2,
-    name: 'Store Romashka',
-    address: 'Dizengoff St, 10, Tel Aviv',
-    latitude: 32.0730,
-    longitude: 34.7707,
-  },
-  {
-    id: 3,
-    name: 'Library No. 7',
-    address: 'Ben Yehuda St, 12, Jerusalem',
-    latitude: 31.7688,
-    longitude: 35.2137,
-  },
-];
+
+const googleMapsAPIKey = '';
+
 
 const MapComponent = () => {
-  // Custom icon for red markers (using default Leaflet red marker icon)
-  const redIcon = new L.Icon({
-    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png', // Default marker icon
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
-    shadowSize: [41, 41],
-  });
+  const [locations, setLocations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  // Function to get coordinates from an address using Google Maps Geocoding API
+  const getCoordinatesFromAddress = async (address) => {
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          address
+        )}&key=${googleMapsAPIKey}`
+      );
+      const data = await response.json();
+
+      if (data.status === 'OK') {
+        const { lat, lng } = data.results[0].geometry.location;
+        return { lat, lng };
+      } else {
+        console.error('Geocoding failed for address:', address);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching geocode:', error);
+      return null;
+    }
+  };
+
+  // Fetch the real location data from the API
+  useEffect(() => {
+    // Replace this URL with your actual API endpoint that returns workplace data
+    fetch('http://localhost:8080/api/workSpace') // Example endpoint
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Fetched locations:', data);
+
+        // Ensure that data.workSpaces is an array
+        if (Array.isArray(data.workSpaces)) {
+          const locationsWithCoordinates = data.workSpaces.map(async (loc) => {
+            // Get coordinates for each location based on its address
+            const coordinates = await getCoordinatesFromAddress(loc.address);
+            return { ...loc, coordinates };
+          });
+
+          Promise.all(locationsWithCoordinates).then((locations) => {
+            setLocations(locations);
+            setLoading(false);
+          });
+        } else {
+          console.error('Fetched data.workSpaces is not an array:', data.workSpaces);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching locations:', error);
+      });
+  }, []);
+
+  // If locations are still loading, display a loading message
+  if (loading) {
+    return <div>Loading map...</div>;
+  }
 
   return (
     <div>
-      <h1>Map with Red Points</h1>
-      <MapContainer center={[32.0658, 34.7703]} zoom={12} style={{ width: '100%', height: '500px' }}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {locations.map((loc) => (
-          <Marker key={loc.id} position={[loc.latitude, loc.longitude]} icon={redIcon}>
-            <Popup>
-              {loc.name} <br /> {loc.address}
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+      <h1>Workspace Map</h1>
+      <LoadScript googleMapsApiKey={googleMapsAPIKey}>
+        <GoogleMap
+          mapContainerStyle={{ width: '100%', height: '500px' }}
+          center={{ lat: 32.0658, lng: 34.7703 }} // Default center location
+          zoom={12}
+        >
+          {locations.map((loc) => {
+            // Ensure coordinates are available before creating a marker
+            if (loc.coordinates) {
+              return (
+                <Marker
+                  key={loc.id}
+                  position={loc.coordinates}
+                  onClick={() => setSelectedLocation(loc)}
+                />
+              );
+            }
+            return null; // Skip if no coordinates found
+          })}
+
+          {selectedLocation && (
+            <InfoWindow
+              position={selectedLocation.coordinates}
+              onCloseClick={() => setSelectedLocation(null)}
+            >
+              <div>
+                <h2>{selectedLocation.name}</h2>
+                <p>{selectedLocation.address}</p>
+              </div>
+            </InfoWindow>
+          )}
+        </GoogleMap>
+      </LoadScript>
     </div>
   );
 };
