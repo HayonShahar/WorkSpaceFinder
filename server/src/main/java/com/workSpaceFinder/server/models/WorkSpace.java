@@ -17,7 +17,7 @@ public class WorkSpace {
     private String description;
     private String image_url;
 
-    WorkSpace(){}
+    public WorkSpace(){}
 
     public WorkSpace(String name, String address, String type, Long rating, Long noise_level, String description, String image_url) {
         this.name = name;
