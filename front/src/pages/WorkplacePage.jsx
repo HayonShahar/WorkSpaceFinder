@@ -227,6 +227,7 @@ const WorkplacePage = () => {
       {workplace ? (
         <>
           <h1>{workplace.name}</h1>
+          <img src={workplace.image_url}></img>
           <p><strong>Type:</strong> {workplace.type}</p>
           <p><strong>Address:</strong> {workplace.address}</p>
           <p><strong>Description:</strong> {workplace.description}</p>
