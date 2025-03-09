@@ -1,0 +1,125 @@
+.workplace-page {
+  text-align: center;
+  padding: 20px;
+}
+
+.workplace-image {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Rating System Styles */
+.rating-container {
+  margin-top: 20px;
+}
+
+.stars {
+  font-size: 30px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.star {
+  color: lightgray;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Hover effect for individual stars - only turns the hovered star and the stars to the left yellow */
+.star:hover,
+.star.hovered {
+  color: yellow;
+}
+
+/* Star turns gold when selected */
+.star.filled {
+  color: gold;
+}
+
+/* Disabled state (after rating) */
+.star.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.rated-message {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Comments Section */
+.comments-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.comments-section h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.comment {
+  background: rgb(255, 255, 255);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.comment p {
+  margin: 5px 0;
+}
+
+.comment .timestamp {
+  font-size: 12px;
+  color: gray;
+}
+
+/* Comment Form */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.comment-form input,
+.comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.comment-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.comment-form button {
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.comment-form button:hover {
+  background: #0056b3;
+}

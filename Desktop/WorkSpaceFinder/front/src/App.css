@@ -1,0 +1,201 @@
+/* Reset default browser styles */
+* {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Light mode (default) */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  color: #313131;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* App container - Makes footer stay at bottom */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Content wrapper for pages */
+.content {
+  flex: 1;
+}
+
+/* Header */
+.header {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Footer - Now sticks to bottom */
+.footer-container {
+  background-color: #181818;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Results Page */
+.results-page {
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.workplace-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Workplace Card */
+.workplace-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  text-align: center;
+}
+
+body.dark-mode .workplace-card {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+/* Dark mode elements */
+body.dark-mode .add-workplace-container,
+body.dark-mode .features-container,
+body.dark-mode .footer-container,
+body.dark-mode .header {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark-mode .feature-item {
+  background-color: #eeeeee;
+  color: #e0e0e0;
+}
+
+body.dark-mode .hero-container {
+  background-color: #181818;
+}
+
+body.dark-mode .search-container {
+  background-color: #222;
+}
+
+body.dark-mode .footer-container {
+  background-color: #181818;
+}
+
+/* Dark mode links */
+body.dark-mode .nav ul li a {
+  color: #e0e0e0;
+}
+
+body.dark-mode .nav ul li a:hover {
+  color: #f1c40f;
+}
+
+/* Floating dark mode toggle button */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark mode toggle button styles */
+body.dark-mode .dark-mode-toggle {
+  background-color: white; /* White background in dark mode */
+  color: black; /* Black text in dark mode */
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+  background-color: #f1f1f1; /* Lighter gray on hover */
+}
+
+body.light-mode .dark-mode-toggle {
+  background-color: #333; /* Dark gray background in light mode */
+  color: white; /* White text in light mode */
+}
+
+body.light-mode .dark-mode-toggle:hover {
+  background-color: #555; /* Lighter dark gray on hover */
+}
+
+/* General buttons (dark in light mode, yellow in dark mode) */
+button, .btn {
+  background-color: #333; /* Dark for light mode */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}
+
+button:hover, .btn:hover {
+  background-color: #555; /* Lighter dark gray on hover */
+}
+
+/* Dark mode buttons (yellow) */
+body.dark-mode button,
+body.dark-mode .btn {
+  background-color: #f1c40f; /* Dark yellow for dark mode */
+  color: black;
+}
+
+body.dark-mode button:hover,
+body.dark-mode .btn:hover {
+  background-color: #d4a007;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .features-list {
+    justify-content: center;
+  }
+
+  .feature-item {
+    width: 100%;
+  }
+
+  .features-container h2 {
+    font-size: 2rem;
+  }
+
+  .footer-container {
+    padding: 20px;
+  }
+
+  .footer-container p {
+    font-size: 0.9rem;
+  }
+}
