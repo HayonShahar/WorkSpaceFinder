@@ -5,10 +5,10 @@ body {
     padding: 0;
     box-sizing: border-box;
     background-color: #f4f7fc; /* Light background for a clean feel */
-}
+  }
   
-/* Container for the whole page */
-.promote-page {
+  /* Container for the whole page */
+  .promote-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,10 +17,10 @@ body {
     text-align: center;
     font-family: 'Poppins', sans-serif;
     color: #333; /* Dark text color for readability */
-}
+  }
   
-/* List of promotions */
-.promotion-list {
+  /* List of promotions */
+  .promotion-list {
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -28,11 +28,69 @@ body {
     margin-top: 20px;
     width: 100%;
     margin-bottom: 30px; /* Add a gap between promotion boxes and the selected option box */
-}
+  }
   
-/* Each promotion box */
-.promotion-box {
-    border: 2px solid #353535;
+  /* Card Container */
+  .card {
+    width: 190px;
+    height: 254px;
+    background: rgb(103, 225, 255);
+    transition: all 0.4s;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.705);
+    font-size: 30px;
+    font-weight: 900;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .card:hover {
+    border-radius: 15px;
+    transform: scale(1.2);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.705);
+    background: rgb(103, 151, 255);
+  }
+  
+  .first-content {
+    height: 100%;
+    width: 100%;
+    transition: all 0.4s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+  }
+  
+  .card:hover .first-content {
+    height: 0px;
+    opacity: 0;
+  }
+  
+  .second-content {
+    height: 0%;
+    width: 100%;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    transform: rotate(90deg) scale(-1);
+    padding: 10px;
+  }
+  
+  .card:hover .second-content {
+    opacity: 1;
+    height: 100%;
+    transform: rotate(0deg);
+    font-size: 1.2rem;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Each promotion box */
+  .promotion-box {
+    border: 2px transparent solid;
     padding: 20px;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
@@ -44,39 +102,39 @@ body {
     align-items: center;
     box-sizing: border-box;
     border-radius: 15px; /* More rounded corners */
-    background-color: #fff;
+    background-color: transparent;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for a modern effect */
     overflow: hidden;
     position: relative; /* Needed for the button */
     padding: 25px; /* Added some space */
     transition: all 0.3s ease; /* Smooth transition for hover effects */
-}
+  }
   
-/* Hover effect on each box */
-.promotion-box:hover {
+  /* Hover effect on each box */
+  .promotion-box:hover {
     transform: scale(1.05); /* Slightly enlarge on hover */
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
-}
+  }
   
-/* Text elements inside the promotion box */
-.promotion-box h3 {
+  /* Text elements inside the promotion box */
+  .promotion-box h3 {
     font-size: 1.2rem;
     color: #4a4a4a;
-}
+  }
   
-.promotion-box p {
+  .promotion-box p {
     font-size: 1rem;
     color: #6c6c6c;
-}
+  }
   
-.promotion-box .price {
+  .promotion-box .price {
     font-size: 1.2rem;
     font-weight: bold;
     color: #25c51a; /* Prominent price color */
-}
+  }
   
-/* Styling for the selected promotion card */
-.selected-promotion {
+  /* Styling for the selected promotion card */
+  .selected-promotion {
     margin-top: 40px;
     padding: 25px;
     border: 2px solid #353535;
@@ -91,10 +149,10 @@ body {
     align-items: center; /* Ensure content is centered */
     height: 380px; /* Fixed height for consistent box size */
     width: 350px; /* Fixed width for consistent box size */
-}
-
-/* Styling for the button in the selected promotion */
-.selected-promotion button {
+  }
+  
+  /* Styling for the button in the selected promotion */
+  .selected-promotion button {
     background-color: #3498db; /* Button color */
     color: white;
     padding: 12px 24px; /* Fixed padding for consistent button size */
@@ -106,30 +164,31 @@ body {
     margin-top: 20px;
     transition: background-color 0.3s ease, transform 0.3s ease; /* Add smooth effect on hover */
     min-width: 150px; /* Ensure button has a minimum width */
-}
-
-.selected-promotion button:hover {
+  }
+  
+  .selected-promotion button:hover {
     background-color: #2980b9;
     transform: scale(1.05); /* Slightly enlarge the button on hover */
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
     .promotion-list {
-        flex-direction: column;
-        align-items: center;
+      flex-direction: column;
+      align-items: center;
     }
   
     .promotion-box {
-        width: 90%;
-        max-width: 350px;
-        height: auto;
-        padding: 25px;
+      width: 90%;
+      max-width: 350px;
+      height: auto;
+      padding: 25px;
     }
-
+  
     .selected-promotion {
-        width: 100%; /* Make it responsive */
-        max-width: 350px; /* Ensure it's not too wide on smaller screens */
-        height: auto; /* Adjust height for small screens */
+      width: 100%; /* Make it responsive */
+      max-width: 350px; /* Ensure it's not too wide on smaller screens */
+      height: auto; /* Adjust height for small screens */
     }
-}
+  }
+  

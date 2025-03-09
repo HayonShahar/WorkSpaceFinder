@@ -4,9 +4,18 @@ import '../styles/Promote.css';
 const PromotionBox = ({ title, description, price, onClick }) => {
   return (
     <div className="promotion-box" onClick={onClick}>
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <p className="price">${price.toFixed(2)}</p> {/* Price formatting */}
+      <div className="card">
+        <div className="first-content">
+          <span>{title}</span>
+        </div>
+        <div className="second-content">
+          <div>
+            <h3>{title}</h3>
+            <p>{description}</p>
+            <p className="price">${price.toFixed(2)}</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
