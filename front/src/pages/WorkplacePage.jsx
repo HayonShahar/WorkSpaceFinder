@@ -28,8 +28,9 @@ const WorkplacePage = () => {
 
     console.log("Workplace ID:", workplace.id, "Full workplace data:", workplace);
 
+    console.log(workplace.id)
     // Fetch comments
-    fetch(`http://localhost:8080/api/ratings/workspace/${workplace.id}/comments`)
+    fetch(`http://localhost:8080/api/ratings/${workplace.id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Comments not found");
@@ -37,11 +38,11 @@ const WorkplacePage = () => {
         return res.json();
       })
       .then((data) => {
-        console.log("Fetched Comments:", data);
+        console.log("Fetched Comments:", data.ratings);
         
         // Extract the comments array from the response
-        const commentsArray = data && data.comments && Array.isArray(data.comments) 
-          ? data.comments 
+        const commentsArray = data && data.ratings && Array.isArray(data.ratings) 
+          ? data.ratings 
           : (Array.isArray(data) ? data : []);
         
         console.log("Comments array:", commentsArray);
@@ -49,13 +50,12 @@ const WorkplacePage = () => {
       })
       .catch((err) => {
         console.error("Error fetching comments:", err);
-        console.error("Error details:", err.message);
         setError("Error fetching comments: " + err.message);
       })
       .finally(() => setLoadingComments(false));
 
-    // Fetch ratings and calculate average - UPDATED URL HERE
-    fetch(`http://localhost:8080/api/ratings/workspace/${workplace.id}/ratings`)
+    // Fetch ratings and calculate average
+    fetch(`http://localhost:8080/api/ratings/${workplace.id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Ratings not found");
@@ -65,200 +65,155 @@ const WorkplacePage = () => {
       .then((data) => {
         console.log("Fetched Ratings:", data);
         
-        // Determine the ratings array format
-        const ratingsArray = Array.isArray(data) ? data : 
-                           (data && Array.isArray(data.ratings) ? data.ratings : []);
-        
-        console.log("Ratings array:", ratingsArray);
-        
         // Calculate average rating
+        const ratingsArray = Array.isArray(data) ? data : (data && Array.isArray(data.ratings) ? data.ratings : []);
+        
         if (ratingsArray.length > 0) {
           let sum = 0;
           let count = 0;
           
           ratingsArray.forEach(item => {
-            // If item is a number
             if (typeof item === 'number') {
               sum += item;
               count++;
-            } 
-            // If item is an object with rating property
-            else if (item && typeof item === 'object' && 'rating' in item) {
+            } else if (item && typeof item === 'object' && 'rating' in item) {
               sum += item.rating;
               count++;
             }
           });
           
           const avgRating = count > 0 ? sum / count : 0;
-          console.log("Average rating calculated:", avgRating);
           setAverageRating(avgRating);
         } else if (data && typeof data.averageRating === 'number') {
-          console.log("Average rating from response:", data.averageRating);
           setAverageRating(data.averageRating);
         } else {
-          console.log("No ratings available");
           setAverageRating(0);
         }
       })
       .catch((err) => {
         console.error("Error fetching ratings:", err);
-        console.error("Error details:", err.message);
         setError("Error fetching ratings: " + err.message);
       })
       .finally(() => setLoadingRatings(false));
   }, [workplace]);
 
-  // Handle comment submission
-  const handleSubmitComment = async (e) => {
+  // Handle comment and rating submission together
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!userName || !newComment) {
-      alert("Please enter your name and a comment!");
-      return;
-    }
-
-    const commentData = {
-      workplaceId: workplace.id,
-      userName,
-      text: newComment,
-    };
-
-    try {
-      const response = await fetch("http://localhost:8080/api/comments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(commentData),
-      });
-
-      if (!response.ok) throw new Error("Failed to submit comment");
-
-      const data = await response.json();
-      console.log("New Comment Added:", data);
-      
-      // Add the new comment to the top of the comments list
-      // If the API returns a comment object, convert it to a string matching your existing format
-      const newCommentString = typeof data === 'object' && data.text ? data.text : newComment;
-      setComments(prevComments => [newCommentString, ...prevComments]);
-      
-      // Clear the form
-      setNewComment("");
-      setUserName("");
-    } catch (error) {
-      console.error("Error submitting comment:", error);
-      alert("Failed to submit comment. Please try again.");
-    }
-  };
-
-  // Handle rating submission
-  const handleSubmitRating = async () => {
-    if (!rating) {
-      alert("Please select a rating!");
+    if (!userName || !newComment || !rating) {
+      alert("Please enter your name, a comment, and select a rating!");
       return;
     }
 
     const ratingData = {
-      workplaceId: workplace.id,
-      userId: 1, // Replace with actual user ID
-      rating,
-      comment: "User rating",
-      noiseLevel: 0, // Adjust if needed
+      workSpace_id: 2,
+      user_id: 1, // Replace with actual user ID
+      rating: +rating,
+      comment: newComment,
     };
 
+    console.log(ratingData)
+
     try {
-      const response = await fetch("http://localhost:8080/api/ratings", {
+      const ratingResponse = await fetch("http://localhost:8080/api/ratings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(ratingData),
       });
 
-      if (!response.ok) throw new Error("Failed to submit rating");
+      if (!ratingResponse.ok){
+        console.log(ratingResponse)
+        return;
+      }
 
-      const data = await response.json();
-      console.log("Rating submission response:", data);
+      console.log(ratingResponse)
 
-      // Instead of calculating locally, refetch the ratings
-      fetch(`http://localhost:8080/api/ratings/workspace/${workplace.id}/ratings`)
-        .then(res => {
-          if (!res.ok) throw new Error("Failed to refresh ratings");
-          return res.json();
-        })
-        .then(ratingData => {
-          console.log("Refreshed ratings after submission:", ratingData);
-          
-          // Determine the ratings array format
-          const ratingsArray = Array.isArray(ratingData) ? ratingData : 
-                             (ratingData && Array.isArray(ratingData.ratings) ? ratingData.ratings : []);
-          
-          // Calculate new average
-          if (ratingsArray.length > 0) {
-            let sum = 0;
-            let count = 0;
-            
-            ratingsArray.forEach(item => {
-              if (typeof item === 'number') {
-                sum += item;
-                count++;
-              } else if (item && typeof item === 'object' && 'rating' in item) {
-                sum += item.rating;
-                count++;
-              }
-            });
-            
-            const avgRating = count > 0 ? sum / count : 0;
-            console.log("Updated average rating:", avgRating);
-            setAverageRating(avgRating);
-          }
-        })
-        .catch(err => {
-          console.error("Error refreshing ratings after submission:", err);
-        });
+      // Refresh comments and ratings
+      refreshComments();
+      fetchRatings();
 
-      alert("Rating submitted successfully!");
+      // Clear the form
+      setNewComment("");
+      setUserName("");
+      setRating(null);
+
+      alert("Comment and Rating submitted successfully!");
+
     } catch (error) {
-      console.error("Error submitting rating:", error);
-      alert("Failed to submit rating. Please try again.");
+      console.error("Error submitting comment and rating:", error);
+      alert("Failed to submit comment and rating. Please try again.");
     }
+  };
+
+  // Helper function to refresh comments
+  const refreshComments = () => {
+    fetch(`http://localhost:8080/api/ratings/${workplace.id}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to refresh comments");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const commentsArray = data && data.comments && Array.isArray(data.comments) 
+          ? data.comments 
+          : (Array.isArray(data) ? data : []);
+        
+        setComments(commentsArray);
+      })
+      .catch((err) => {
+        console.error("Error refreshing comments:", err);
+      });
+  };
+
+  // Helper function to fetch ratings
+  const fetchRatings = () => {
+    fetch(`http://localhost:8080/api/ratings/${workplace.id}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to refresh ratings");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const ratingsArray = Array.isArray(data) ? data : (data && Array.isArray(data.ratings) ? data.ratings : []);
+        
+        if (ratingsArray.length > 0) {
+          let sum = 0;
+          let count = 0;
+          
+          ratingsArray.forEach(item => {
+            if (typeof item === 'number') {
+              sum += item;
+              count++;
+            } else if (item && typeof item === 'object' && 'rating' in item) {
+              sum += item.rating;
+              count++;
+            }
+          });
+          
+          const avgRating = count > 0 ? sum / count : 0;
+          setAverageRating(avgRating);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching ratings:", err);
+      });
   };
 
   // Render a comment based on its type
   const renderComment = (comment, index) => {
-    console.log("Rendering comment:", comment);
+    console.log(comment)
+    const commentText = comment.comment || comment.content || comment.message || "No comment text";
+    const username = comment.userName || comment.name || "Anonymous";
+    const timestamp = comment.timestamp || comment.createdAt || comment.date;
     
-    // If comment is just a string
-    if (typeof comment === 'string') {
-      return (
-        <div key={`comment-${index}`} className="comment">
-          <p>{comment}</p>
-        </div>
-      );
-    }
-    
-    // If comment is an object with expected properties
-    if (typeof comment === 'object' && comment !== null) {
-      // Try to determine the text field (might be text, content, or message)
-      const commentText = comment.text || comment.content || comment.message || "No comment text";
-      
-      // Try to determine the username field
-      const username = comment.userName || comment.name || "Anonymous";
-      
-      // Try to determine the timestamp
-      const timestamp = comment.timestamp || comment.createdAt || comment.date;
-      
-      return (
-        <div key={`comment-${index}`} className="comment">
-          <p><strong>{username}:</strong> {commentText}</p>
-          {timestamp && (
-            <p className="timestamp">
-              {new Date(timestamp).toLocaleString()}
-            </p>
-          )}
-        </div>
-      );
-    }
-    
-    // Fallback for unexpected comment format
     return (
       <div key={`comment-${index}`} className="comment">
-        <p>Invalid comment format</p>
+        <p><strong>{username}:</strong> {commentText}</p>
+        {timestamp && (
+          <p className="timestamp">{new Date(timestamp).toLocaleString()}</p>
+        )}
       </div>
     );
   };
@@ -302,7 +257,6 @@ const WorkplacePage = () => {
               ))}
             </div>
             {rating && <p className="rated-message">You rated this workplace {rating} out of 5 stars!</p>}
-            <button onClick={handleSubmitRating}>Submit Rating</button>
           </div>
 
           {averageRating !== null && (
@@ -313,8 +267,8 @@ const WorkplacePage = () => {
 
           <div className="comments-section">
             <div className="add-comment">
-              <h2>Add a Comment</h2>
-              <form onSubmit={handleSubmitComment} className="comment-form">
+              <h2>Add a Comment and Rating</h2>
+              <form onSubmit={handleSubmit} className="comment-form">
                 <input
                   type="text"
                   placeholder="Your Name"
@@ -328,7 +282,7 @@ const WorkplacePage = () => {
                   onChange={(e) => setNewComment(e.target.value)}
                   required
                 ></textarea>
-                <button type="submit">Post Comment</button>
+                <button type="submit">Post Comment and Rating</button>
               </form>
             </div>
 
@@ -341,7 +295,7 @@ const WorkplacePage = () => {
               ) : (
                 <p>No comments yet. Be the first to comment!</p>
               )}
-              
+
               {error && <p className="error-message">{error}</p>}
             </div>
           </div>
