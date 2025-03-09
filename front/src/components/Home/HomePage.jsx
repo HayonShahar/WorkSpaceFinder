@@ -2,7 +2,8 @@ import React from 'react';
 import HeroSection from './HeroSection';
 import FeaturesSection from './FeaturesSection';
 import SearchSection from './SearchSection';
-import Footer from './Footer';
+import MapComponent from '../MapComponent'; // Добавляем карту
+
 
 const HomePage = () => {
   return (
@@ -10,7 +11,8 @@ const HomePage = () => {
       <HeroSection />
       <FeaturesSection />
       <SearchSection />
-      <Footer />
+      <MapComponent /> {/* Карта теперь здесь */}
+
     </div>
   );
 };

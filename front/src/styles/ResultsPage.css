@@ -2,6 +2,7 @@
 .results-page {
     padding: 20px;
     text-align: center; /* Center the content of the page by default */
+    min-height: 70vh;
 }
 
 .workplace-list {
