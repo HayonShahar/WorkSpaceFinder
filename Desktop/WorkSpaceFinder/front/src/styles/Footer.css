@@ -1,0 +1,53 @@
+.footer-container {
+  background-color: #343a40;
+  color: white;
+  text-align: center;
+  padding: 30px;
+}
+
+.footer-container p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.social-links a {
+  color: white;
+  margin: 0 10px;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile & Tablet Styles */
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 20px; /* Reduce padding on smaller screens */
+  }
+
+  .footer-container p {
+    font-size: 0.9rem; /* Adjust font size for readability */
+  }
+
+  .social-links {
+    margin-top: 10px; /* Add space between text and social links */
+  }
+
+  .social-links a {
+    font-size: 1rem; /* Slightly smaller font size for social links */
+    margin: 0 8px; /* Reduce the spacing between social links */
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container p {
+    font-size: 0.8rem; /* Make text smaller on very small screens */
+  }
+
+  .social-links a {
+    font-size: 0.9rem; /* Further reduce font size of social links */
+    margin: 0 5px; /* Reduce margin to avoid crowding */
+  }
+}

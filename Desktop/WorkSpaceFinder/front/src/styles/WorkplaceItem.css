@@ -1,0 +1,87 @@
+.workplace-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Distribute items evenly with space between */
+  gap: 20px; /* Added gap between items */
+}
+
+.workplace-item {
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: calc(33.333% - 20px); /* Three items per row with space between */
+  height: 400px; /* Reduced height of the item */
+  text-align: center;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent overflow */
+}
+
+body.dark-mode .workplace-item {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+.workplace-item img {
+  width: 100%; 
+  height: 40%;  /* Reduced image height */
+  object-fit: cover;  /* Ensures the image covers the box without stretching */
+  border-radius: 8px;
+  margin-bottom: 10px; /* Added margin to separate image from text */
+}
+
+.workplace-item h3 {
+  font-size: 1.4rem;
+  margin-top: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Clipping long text with ellipsis */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.workplace-item p {
+  font-size: 1.1rem;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Clipping long text with ellipsis */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.workplace-item .rating {
+  font-size: 1.2rem;
+  color: #f1c40f; /* Yellow color for ratings */
+}
+
+.workplace-item:hover {
+  transform: translateY(-5px); /* Lift the card up slightly */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increase shadow for more depth */
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .workplace-item {
+    width: calc(50% - 20px); /* Two items per row on medium screens */
+    height: 270px; /* Adjust height for medium screens */
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .workplace-item {
+    width: 100%; /* One item per row on small screens */
+    height: 250px; /* Adjust height for small screens */
+  }
+}
+
+/* Dark Mode Styles */
+body.dark-mode .workplace-item h3,
+body.dark-mode .workplace-item p {
+  color: #e0e0e0;
+}
+
+/* Light Mode Styles */
+body.light-mode .workplace-item h3,
+body.light-mode .workplace-item p {
+  color: #313131;
+}
