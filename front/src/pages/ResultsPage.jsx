@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
 import WorkplaceItem from '../components/WorkplaceItem';
 import FilterBar from '../components/FilterBar'; // Import the filter bar component
 import '../styles/ResultsPage.css';
+import { useNavigate } from 'react-router-dom';
 
 const ResultsPage = () => {
   const [workplaces, setWorkplaces] = useState([]);
@@ -10,14 +11,22 @@ const ResultsPage = () => {
   const [filters, setFilters] = useState({
     location: '',
     rating: '',
-    type: '', 
+    type: '',
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
     axios.get('http://localhost:8080/api/workSpace')
       .then(response => {
         console.log(response.data);
-        
+
         setWorkplaces(response.data.workSpaces);
         setFilteredWorkplaces(response.data.workSpaces);
       })

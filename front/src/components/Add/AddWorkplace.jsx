@@ -15,15 +15,14 @@ const AddWorkplace = () => {
 
     const navigate = useNavigate();
 
-    const isConnected = () => {
+    useEffect(() => {
         const token = localStorage.getItem("token");
-        console.log(token);
-        if (!token) {
-            return true;
+        if(!token){
+            navigate("/");
+            return
         }
-        return false;
-    }
-
+    },[])
+    
     const userId = localStorage.getItem("userId");
 
     const handleSubmit = async (e) => {
@@ -84,12 +83,6 @@ const AddWorkplace = () => {
             }, 2000); // Hide error message after 2 seconds
         }
     };
-
-    useEffect(() => {
-        if(!isConnected){
-            navigate("/");
-        }
-    },[])
 
     return (
         <div className="add-workplace-container">
