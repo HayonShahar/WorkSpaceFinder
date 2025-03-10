@@ -1,36 +1,50 @@
-/* Default styles for headings */
-/* h2, h3, h4 {
-    color: #000000; 
-} */
-
 /* Light mode styles for headings */
-body.light-mode h2, 
-body.light-mode h4 {
-    color: #333333; /* Darker color for light mode */
+
+.contact-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center align text in contact-container */
+    width: 100%; /* Ensure it takes full width of the page */
 }
 
-/* Dark mode styles for headings */
-body.dark-mode h2, 
+/* Heading text alignment */
+body.light-mode h2, 
+body.light-mode h4,
+body.dark-mode h2,
 body.dark-mode h4 {
-    color: #ffffff; /* Lighter color for dark mode */
+    text-align: center; /* Center align all h2, h4 in light/dark mode */
+    color: inherit; /* Allow the color to be set by mode-specific rules */
 }
 
 /* Section and other elements */
 section {
     margin-bottom: 40px;
+    background-color: transparent; /* Ensures no background color change */
+    text-align: center; /* Center align text within sections */
+    width: 100%; /* Ensure sections take full width of the page */
 }
 
+/* .text inside sections */
 .text {
     color: #555;
     line-height: 1.6;
     font-size: 1.1rem;
+    text-align: center; /* Center align text inside .text */
+    width: 100%; /* Ensure text takes full width */
 }
 
 #about-us {
-    background-color: #fff;
+    background-color: transparent;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center align text inside about-us */
+    width: 100%; /* Ensure about-us section takes full width */
 }
 
 #about-us h2 {
@@ -38,17 +52,21 @@ section {
 }
 
 #contact-info {
-    background-color: #f2f9ff; 
+    background-color: transparent;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center align text inside contact-info */
+    width: 100%; /* Ensure contact-info section takes full width */
 }
 
 #faq {
-    background-color: #fff;
+    background-color: transparent;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center align text inside faq */
+    width: 100%; /* Ensure faq section takes full width */
 }
 
 #faq h3 {
@@ -57,16 +75,24 @@ section {
 
 #developers {
     margin-top: 40px;
+    text-align: center; /* Center align text inside developers */
+    width: 100%; /* Ensure developers section takes full width */
 }
 
 #devl {
     display: flex;
+    flex-wrap: wrap; /* Allows responsive flex for developers */
+    justify-content: center; /* Center align dev elements */
+    width: 100%; /* Ensure dev section takes full width */
 }
 
 #developers div {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    flex: 1 1 100%; /* Ensures flexibility for smaller screens */
+    justify-content: center; /* Center align each developer div */
+    width: 100%; /* Ensure each developer div takes full width */
 }
 
 #developers h3 {
@@ -87,6 +113,7 @@ footer {
     padding: 10px;
     background-color: #004f75;
     color: white;
+    width: 100%; /* Ensure footer takes full width */
 }
 
 a {
@@ -100,8 +127,19 @@ a:hover {
 
 /* Responsive styles */
 @media (max-width: 768px) {
+    /* Adjusting developer section for mobile */
     #developers div {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center; /* Center align dev info on mobile */
+    }
+
+    /* Responsive footer */
+    footer {
+        padding: 15px;
+    }
+
+    /* Adjust text size for smaller screens */
+    .text {
+        font-size: 1rem;
     }
 }
