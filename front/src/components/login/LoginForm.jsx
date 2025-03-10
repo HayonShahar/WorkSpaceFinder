@@ -37,13 +37,19 @@ function LoginForm() {
                 },
             });
 
+            if(!response.data.success){
+                setError(response.data.message);
+                return;
+            }
+
+
             console.log('User logged in successfully!');
             console.log('Login data:', response.data);
+            
+            setSuccess(response.data.message);
 
             localStorage.setItem("token",response.data.token);
             localStorage.setItem("userId",response.data.user.id);
-            
-            setSuccess(response.data.message);
 
             setTimeout(()=>{
                 navigate('/');
@@ -54,13 +60,12 @@ function LoginForm() {
             if (error.response) {
                 console.error('API Response Error:', error.response.data);
             }
-            setError('An error occurred. Please try again later.');
+            setError('An error occurred, Please try again later.');
         }
     };
 
     return (
         <form className="rl-form" onSubmit={handleSubmit}>
-            {error && <div className="error-message">{error}</div>}
             <LoginInput
                 placeholder="Email"
                 id="email"
@@ -69,7 +74,7 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-            />
+                />
             <LoginInput
                 placeholder="Password"
                 id="password"
@@ -78,9 +83,10 @@ function LoginForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-            />
+                />
             <input value="Sign In" type="submit" className="rl-button" />
             <div className='formBottom'>
+                {error && <div className="error-message">{error}</div>}
                 {success && <div className="success-message">{success}</div>}
                 <a href='/register'>To Registration</a>
             </div>

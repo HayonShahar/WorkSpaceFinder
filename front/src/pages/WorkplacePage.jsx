@@ -15,7 +15,6 @@ const WorkplacePage = () => {
   const [loadingComments, setLoadingComments] = useState(true);
   const [loadingRatings, setLoadingRatings] = useState(true);
   const [error, setError] = useState("");
-  const [qrCodeUrl, setQrCodeUrl] = useState("");
 
   // Fetch comments and ratings when the component mounts
   useEffect(() => {
@@ -29,6 +28,7 @@ const WorkplacePage = () => {
 
     console.log("Workplace ID:", workplace.id, "Full workplace data:", workplace);
 
+    console.log(workplace.id)
     // Fetch comments
     fetch(`http://localhost:8080/api/ratings/${workplace.id}`)
       .then((res) => {
@@ -39,11 +39,12 @@ const WorkplacePage = () => {
       })
       .then((data) => {
         console.log("Fetched Comments:", data.ratings);
-
-        const commentsArray = data && data.ratings && Array.isArray(data.ratings)
-          ? data.ratings
+        
+        // Extract the comments array from the response
+        const commentsArray = data && data.ratings && Array.isArray(data.ratings) 
+          ? data.ratings 
           : (Array.isArray(data) ? data : []);
-
+        
         console.log("Comments array:", commentsArray);
         setComments(commentsArray);
       })
@@ -63,13 +64,14 @@ const WorkplacePage = () => {
       })
       .then((data) => {
         console.log("Fetched Ratings:", data);
-
+        
+        // Calculate average rating
         const ratingsArray = Array.isArray(data) ? data : (data && Array.isArray(data.ratings) ? data.ratings : []);
-
+        
         if (ratingsArray.length > 0) {
           let sum = 0;
           let count = 0;
-
+          
           ratingsArray.forEach(item => {
             if (typeof item === 'number') {
               sum += item;
@@ -79,7 +81,7 @@ const WorkplacePage = () => {
               count++;
             }
           });
-
+          
           const avgRating = count > 0 ? sum / count : 0;
           setAverageRating(avgRating);
         } else if (data && typeof data.averageRating === 'number') {
@@ -110,7 +112,7 @@ const WorkplacePage = () => {
       comment: newComment,
     };
 
-    console.log(ratingData);
+    console.log(ratingData)
 
     try {
       const ratingResponse = await fetch("http://localhost:8080/api/ratings", {
@@ -119,12 +121,12 @@ const WorkplacePage = () => {
         body: JSON.stringify(ratingData),
       });
 
-      if (!ratingResponse.ok) {
-        console.log(ratingResponse);
+      if (!ratingResponse.ok){
+        console.log(ratingResponse)
         return;
       }
 
-      console.log(ratingResponse);
+      console.log(ratingResponse)
 
       // Refresh comments and ratings
       refreshComments();
@@ -136,6 +138,7 @@ const WorkplacePage = () => {
       setRating(null);
 
       alert("Comment and Rating submitted successfully!");
+
     } catch (error) {
       console.error("Error submitting comment and rating:", error);
       alert("Failed to submit comment and rating. Please try again.");
@@ -152,10 +155,10 @@ const WorkplacePage = () => {
         return res.json();
       })
       .then((data) => {
-        const commentsArray = data && data.comments && Array.isArray(data.comments)
-          ? data.comments
+        const commentsArray = data && data.comments && Array.isArray(data.comments) 
+          ? data.comments 
           : (Array.isArray(data) ? data : []);
-
+        
         setComments(commentsArray);
       })
       .catch((err) => {
@@ -174,11 +177,11 @@ const WorkplacePage = () => {
       })
       .then((data) => {
         const ratingsArray = Array.isArray(data) ? data : (data && Array.isArray(data.ratings) ? data.ratings : []);
-
+        
         if (ratingsArray.length > 0) {
           let sum = 0;
           let count = 0;
-
+          
           ratingsArray.forEach(item => {
             if (typeof item === 'number') {
               sum += item;
@@ -188,7 +191,7 @@ const WorkplacePage = () => {
               count++;
             }
           });
-
+          
           const avgRating = count > 0 ? sum / count : 0;
           setAverageRating(avgRating);
         }
@@ -198,20 +201,13 @@ const WorkplacePage = () => {
       });
   };
 
-  // Generate QR code URL
-  const generateQrCode = () => {
-    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${workplace.id}`;
-    setQrCodeUrl(qrCodeUrl);
-    console.log("QR Code URL:", qrCodeUrl);
-  };
-
   // Render a comment based on its type
   const renderComment = (comment, index) => {
-    console.log(comment);
+    console.log(comment)
     const commentText = comment.comment || comment.content || comment.message || "No comment text";
     const username = comment.userName || comment.name || "Anonymous";
     const timestamp = comment.timestamp || comment.createdAt || comment.date;
-
+    
     return (
       <div key={`comment-${index}`} className="comment">
         <p><strong>{username}:</strong> {commentText}</p>
@@ -231,7 +227,7 @@ const WorkplacePage = () => {
       {workplace ? (
         <>
           <h1>{workplace.name}</h1>
-          <img src={workplace.image_url} alt={workplace.name}></img>
+          <img src={workplace.image_url}></img>
           <p><strong>Type:</strong> {workplace.type}</p>
           <p><strong>Address:</strong> {workplace.address}</p>
           <p><strong>Description:</strong> {workplace.description}</p>
@@ -269,13 +265,6 @@ const WorkplacePage = () => {
               <h3>Average Rating: {averageRating.toFixed(1)} / 5</h3>
             </div>
           )}
-
-          <div className="qr-code-section">
-            <button onClick={generateQrCode}>Get QR Code</button>
-            <div>
-              {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
-            </div>
-          </div>
 
           <div className="comments-section">
             <div className="add-comment">
