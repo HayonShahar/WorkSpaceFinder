@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Promote.css';
+import { useNavigate } from 'react-router-dom';
 
 const PromotionBox = ({ title, description, price, onClick }) => {
     return (
@@ -28,6 +29,8 @@ function PromotePage() {
 
     const userId = localStorage.getItem('userId') || 1;
 
+    const navigate = useNavigate();
+    
     const promotions = [
         {
             id: 1,
@@ -48,7 +51,7 @@ function PromotePage() {
             price: 20,
         },
     ];
-
+    
     const getWorkSpaces = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/workSpace');
@@ -59,19 +62,24 @@ function PromotePage() {
             console.error('Error fetching workspaces:', error);
         }
     };
-
+    
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/");
+          return;
+        }
         getWorkSpaces();
     }, []);
-
+    
     const handlePromotionClick = (promotion) => {
         setSelectedPromotion(promotion);
         setPromotionStatus(null); // Reset any previous status
     };
-
+    
     const handleConfirmSelection = async () => {
         if (!selectedPromotion || !workSpaceId) return; // Ensure both are selected
-
+        
         const promotionData = {
             workSpaceId: workSpaceId,  // the selected workspace id
             userId: userId,            // the logged-in user id
@@ -79,10 +87,10 @@ function PromotePage() {
                 id: selectedPromotion.id,  // the selected promotion id
             }
         };
-
+        
         try {
             console.log('Sending promotion request...');
-
+            
             const response = await fetch('http://localhost:8080/api/promotes', {
                 method: 'POST',
                 headers: {
@@ -90,16 +98,16 @@ function PromotePage() {
                 },
                 body: JSON.stringify(promotionData),  // Send the data as a JSON object
             });
-
+            
             const data = await response.json();  // Await the response as JSON
             console.log('Received response:', data);  // Log the response data
-
+            
             if (response.ok) {
                 setPromotionStatus({
                     success: true,
                     message: `You have selected the ${selectedPromotion.title} for $${selectedPromotion.price}`,
                 });
-
+                
                 // Pop-up for success
                 //alert(`Success: You have selected the ${selectedPromotion.title} for $${selectedPromotion.price}`);
                 alert(`succes: ${data.message}`);
@@ -111,7 +119,7 @@ function PromotePage() {
                     success: false,
                     message: data.message || 'There was an error with the promotion selection',
                 });
-
+                
                 // Pop-up for failure
                 alert(`Failure: ${data.message || 'There was an error with the promotion selection'}`);
             }
@@ -121,7 +129,7 @@ function PromotePage() {
                 success: false,
                 message: 'Failed to submit promotion',
             });
-
+            
             // Pop-up for failure
             alert('Failure: Failed to submit promotion');
         }

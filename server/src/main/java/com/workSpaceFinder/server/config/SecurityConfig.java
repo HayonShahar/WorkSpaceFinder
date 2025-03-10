@@ -9,31 +9,26 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.workSpaceFinder.server.filters.JwtAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(withDefaults()) // **אפשר CORS במקום לכבות אותו**
+                .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())) // הוספת קונפיגורציה ל-CORS
                 .httpBasic(httpBasic -> httpBasic.disable()) // רק אם לא משתמשים ב-HTTP Basic
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/users/register", "/api/users/login", "/api/workSpace", "/api/favorites", "/api/ratings/**", "/api/promotes").permitAll()
+                        .requestMatchers("/api/users/register", "/api/users/login", "/api/workSpace", "/api/favorites", "/api/ratings/**", "/api/ratings", "/api/promotes").permitAll()
                         .anyRequest().authenticated() // כל השאר דורש אימות
-                )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+                );
         return http.build();
     }
+
 }
+
+
