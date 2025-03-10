@@ -84,7 +84,9 @@ section {
     flex-wrap: wrap; /* Allows responsive flex for developers */
     justify-content: center; /* Center align dev elements */
     width: 100%; /* Ensure dev section takes full width */
+    gap: 20px; /* Adds space between each child div inside #devl */
 }
+
 
 #developers div {
     display: flex;
@@ -116,10 +118,10 @@ footer {
     width: 100%; /* Ensure footer takes full width */
 }
 
-a {
+/* a {
     text-decoration: none;
     color: #ffffff;
-}
+} */
 
 a:hover {
     text-decoration: none;
