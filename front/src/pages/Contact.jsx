@@ -52,12 +52,12 @@ const Contact = () => {
                     </div>
                     <div>
                         <h3>Shahar Hayon</h3>
-                        <img src="" alt="" />
+                        <img src='../src/components/contactComponents/20240804_112039.JPG' alt="Daniel" id='photo'/>
                         <p></p>
                     </div>
                     <div>
                         <h3>Daniel Melki</h3>
-                        <img src="" alt="" />
+                        <img/>
                         <p></p>
                     </div>
                 </div>
