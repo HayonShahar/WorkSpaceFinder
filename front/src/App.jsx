@@ -34,7 +34,7 @@ const App = () => {
         <Route path="/register" element={<RegisterContainer />} />
         <Route path="/login" element={<LoginContainer />} />
         <Route path="/tfa" element={<TFAContainer />} />
-        <Route path="/promote" element={<PromotePage />} /> {/* Add PromotePage route */}
+        <Route path="/promote" element={<PromotePage />} />
       </Routes>
 
       {/* Render Footer only if the current path is NOT '/register', '/login', or '/tfa' */}

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import '../../styles/AddWorkplace.css';
+import { useNavigate } from 'react-router-dom';
 
 const AddWorkplace = () => {
     const [name, setName] = useState('');
@@ -11,6 +12,17 @@ const AddWorkplace = () => {
     const [description, setDescription] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+
+    const navigate = useNavigate();
+
+    const isConnected = () => {
+        const token = localStorage.getItem("token");
+        console.log(token);
+        if (!token) {
+            return true;
+        }
+        return false;
+    }
 
     const userId = localStorage.getItem("userId");
 
@@ -72,6 +84,12 @@ const AddWorkplace = () => {
             }, 2000); // Hide error message after 2 seconds
         }
     };
+
+    useEffect(() => {
+        if(!isConnected){
+            navigate("/");
+        }
+    },[])
 
     return (
         <div className="add-workplace-container">
