@@ -1,21 +1,12 @@
 import React from 'react';
 import '../styles/FilterBar.css';
 
-const FilterBar = ({ onFilterChange }) => {
+
+
+const FilterBar = ({ onFilterChange, workplaces }) => {
+  console.log(workplaces)
   return (
     <div className="filter-bar">
-      <label htmlFor="location">Location:</label>
-      <select id="location" onChange={onFilterChange}>
-        <option value="">All Locations</option>
-        <option value="Haifa">Haifa</option>
-        <option value="Tel Aviv">Tel Aviv</option>
-        <option value="Hadera">Hadera</option>
-        <option value="Jerusalim">Jerusalim</option>
-        <option value="Grindelwald">Grindelwald</option>
-        <option value="Geneva">Geneva</option>
-        <option value="Basel">Basel</option>
-      </select>
-
       <label htmlFor="rating">Rating:</label>
       <select id="rating" onChange={onFilterChange}>
         <option value="">All Ratings</option>
