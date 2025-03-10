@@ -82,6 +82,10 @@
   .successMessage{
     color: green;
   }
+
+  .errorMessage{
+    color: red;
+  }
   
   
   /* Mobile responsiveness */

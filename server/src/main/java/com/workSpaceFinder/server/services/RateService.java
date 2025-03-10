@@ -29,10 +29,12 @@ public class RateService {
 
         Optional<Rate> existingRate = rateRepository.findRatingByUserAndWorkSpace(rate.getUser_id(), rate.getWorkSpace_id());
         if (existingRate.isPresent()) {
+            System.out.print("1");
             response.put("message", "Rating already exists for this workspace by this user.");
             response.put("success", false);
         } else {
             Rate savedRate = rateRepository.save(rate);
+            System.out.print("2");
             response.put("message", "Rating created successfully.");
             response.put("success", true);
             response.put("rate", savedRate);
