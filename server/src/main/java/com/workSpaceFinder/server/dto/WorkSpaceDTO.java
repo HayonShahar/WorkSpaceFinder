@@ -1,36 +1,38 @@
-package com.workSpaceFinder.server.models;
+package com.workSpaceFinder.server.dto;
 
-import jakarta.persistence.*;
+import com.workSpaceFinder.server.models.Promote;
 
-@Entity
-@Table(name = "work_spaces")
-public class WorkSpace {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class WorkSpaceDTO {
     private Long id;
     private String name;
     private String address;
     private String type;
     private Long rating;
     private String description;
-    private String image_url;
-    private Long upload_user_id;
+    private String imageUrl;
+    private Long uploadUserId;
+    private Promote promote;
 
-    public WorkSpace(){}
+    public WorkSpaceDTO() {}
 
-    public WorkSpace(String name, String address, String type, Long rating, String description, String image_url, Long upload_user_id) {
+    public WorkSpaceDTO(Long id, String name, String address, String type, Long rating, String description, String imageUrl, Long uploadUserId, Promote promote) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.type = type;
         this.rating = rating;
         this.description = description;
-        this.image_url = image_url;
-        this.upload_user_id = upload_user_id;
+        this.imageUrl = imageUrl;
+        this.uploadUserId = uploadUserId;
+        this.promote = promote;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -73,33 +75,43 @@ public class WorkSpace {
         this.description = description;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public Long getUpload_user_id() {
-        return upload_user_id;
+    public Long getUploadUserId() {
+        return uploadUserId;
     }
 
-    public void setUpload_user_id(Long upload_user_id) {
-        this.upload_user_id = upload_user_id;
+    public void setUploadUserId(Long uploadUserId) {
+        this.uploadUserId = uploadUserId;
+    }
+
+    public Promote getPromote() {
+        return promote;
+    }
+
+    public void setPromote(Promote promote) {
+        this.promote = promote;
     }
 
     @Override
     public String toString() {
-        return "WorkSpace{" +
+        return "WorkSpaceDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", type='" + type + '\'' +
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
-                ", image_url='" + image_url + '\'' +
-                ", upload_user_id=" + upload_user_id +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", uploadUserId=" + uploadUserId +
+                ", promote=" + promote +
                 '}';
     }
 }
+

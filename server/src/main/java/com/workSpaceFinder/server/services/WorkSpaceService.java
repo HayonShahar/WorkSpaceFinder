@@ -1,20 +1,24 @@
 package com.workSpaceFinder.server.services;
 
+import com.workSpaceFinder.server.dto.WorkSpaceDTO;
+import com.workSpaceFinder.server.models.Promote;
 import com.workSpaceFinder.server.models.WorkSpace;
+import com.workSpaceFinder.server.repositories.PromoteRepository;
 import com.workSpaceFinder.server.repositories.WorkSpaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class WorkSpaceService {
 
     @Autowired
     private WorkSpaceRepository workSpaceRepository;
+
+    @Autowired
+    private PromoteRepository promoteRepository;
+
 
     public Map<String, Object> createWorkSpace(WorkSpace workSpace) {
         Map<String, Object> response = new HashMap<>();
@@ -33,9 +37,34 @@ public class WorkSpaceService {
     public Map<String, Object> getAllWorkSpaces() {
         Map<String, Object> response = new HashMap<>();
         try {
+            List<Promote> promotes = promoteRepository.findAll();
             List<WorkSpace> workSpaces = workSpaceRepository.findAll();
+            List<WorkSpaceDTO> workSpaceDTOs = new ArrayList<>();
+
+            for (WorkSpace workSpace : workSpaces) {
+                Promote matchingPromote = null;
+                for (Promote promote : promotes) {
+                    if (promote.getWorkSpaceId().equals(workSpace.getId())) {
+                        matchingPromote = promote;
+                        break;
+                    }
+                }
+
+                WorkSpaceDTO workSpaceDTO = new WorkSpaceDTO(
+                        workSpace.getId(),
+                        workSpace.getName(),
+                        workSpace.getAddress(),
+                        workSpace.getType(),
+                        workSpace.getRating(),
+                        workSpace.getDescription(),
+                        workSpace.getImage_url(),
+                        workSpace.getUpload_user_id(),
+                        matchingPromote
+                );
+                workSpaceDTOs.add(workSpaceDTO);
+            }
             response.put("message", "WorkSpaces retrieved successfully.");
-            response.put("workSpaces", workSpaces);
+            response.put("workSpaces", workSpaceDTOs);
             response.put("success", true);
         } catch (Exception e) {
             response.put("message", "Error retrieving WorkSpaces: " + e.getMessage());
@@ -43,6 +72,7 @@ public class WorkSpaceService {
         }
         return response;
     }
+
 
     public Map<String, Object> getWorkSpaceById(Long id) {
         Map<String, Object> response = new HashMap<>();
@@ -72,7 +102,6 @@ public class WorkSpaceService {
                 workSpace.setAddress(workSpaceDetails.getAddress());
                 workSpace.setType(workSpaceDetails.getType());
                 workSpace.setRating(workSpaceDetails.getRating());
-                workSpace.setNoise_level(workSpaceDetails.getNoise_level());
                 workSpace.setDescription(workSpaceDetails.getDescription());
                 workSpace.setImage_url(workSpaceDetails.getImage_url());
 
