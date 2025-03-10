@@ -1,3 +1,4 @@
+/* Header */
 .header {
   min-height: 12vh;
   display: flex;
@@ -8,13 +9,23 @@
   color: white;
   position: relative; /* Ensures it stays on top */
   z-index: 1000; /* Higher than other elements */
-  box-shadow: 0px 8px 15px rgba(241, 196, 15, 0.59); /* Stronger yellow shadow */
+  box-shadow: 0px 8px 20px rgba(0, 179, 255, 0.5); /* Lighter cyan blur shadow for light mode */
 }
 
+/* Light mode box shadow */
+body.light-mode .header {
+  box-shadow: 0px 8px 20px rgba(0, 149, 255, 0.6); /* Brighter cyan shadow for light mode */
+}
+
+/* Dark mode box shadow */
+body.dark-mode .header {
+  box-shadow: 0px 8px 20px rgba(241, 196, 15, 0.8); /* Brighter yellow shadow for dark mode */
+}
 
 .header .logo {
   font-size: 24px;
   font-weight: bold;
+  color: white; /* Set logo color to white */
 }
 
 .nav ul {
@@ -30,7 +41,7 @@
 
 .nav ul li a {
   color: white;
-  text-decoration: none;
+  text-decoration: none; /* Remove underline from the links */
   font-size: 18px;
   transition: color 0.3s ease;
 }
@@ -48,6 +59,11 @@
 
 .nav.open {
   display: block;
+}
+
+a{
+  text-decoration: none;
+  color: white;
 }
 
 @media (max-width: 768px) {
