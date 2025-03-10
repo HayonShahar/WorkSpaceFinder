@@ -1,9 +1,23 @@
-section {
-    margin-bottom: 40px;
+/* Default styles for headings */
+/* h2, h3, h4 {
+    color: #000000; 
+} */
+
+/* Light mode styles for headings */
+body.light-mode h2, 
+body.light-mode h4 {
+    color: #333333; /* Darker color for light mode */
 }
 
-h2, h3, h4 {
-    color: #004f75; 
+/* Dark mode styles for headings */
+body.dark-mode h2, 
+body.dark-mode h4 {
+    color: #ffffff; /* Lighter color for dark mode */
+}
+
+/* Section and other elements */
+section {
+    margin-bottom: 40px;
 }
 
 .text {
@@ -11,7 +25,6 @@ h2, h3, h4 {
     line-height: 1.6;
     font-size: 1.1rem;
 }
-
 
 #about-us {
     background-color: #fff;
@@ -23,7 +36,6 @@ h2, h3, h4 {
 #about-us h2 {
     font-size: 1.8rem;
 }
-
 
 #contact-info {
     background-color: #f2f9ff; 
@@ -47,9 +59,8 @@ h2, h3, h4 {
     margin-top: 40px;
 }
 
-#devl{
-display: flex;
-
+#devl {
+    display: flex;
 }
 
 #developers div {
@@ -80,13 +91,14 @@ footer {
 
 a {
     text-decoration: none;
-    color: #004f75;
+    color: #ffffff;
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
+/* Responsive styles */
 @media (max-width: 768px) {
     #developers div {
         flex-direction: column;
