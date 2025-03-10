@@ -121,6 +121,24 @@ body {
     transform: scale(1.05);
 }
 
+.promotion-status {
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.promotion-status.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.promotion-status.failure {
+    background-color: #f44336;
+    color: white;
+}
+
+
 /* Responsive Fixes */
 @media (max-width: 768px) {
     .promotion-list {
