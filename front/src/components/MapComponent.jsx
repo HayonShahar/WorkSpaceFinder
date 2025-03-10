@@ -4,7 +4,6 @@ import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/ap
 
 const googleMapsAPIKey = '';
 
-
 const MapComponent = () => {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);

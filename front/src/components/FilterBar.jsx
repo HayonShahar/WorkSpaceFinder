@@ -7,10 +7,10 @@ const FilterBar = ({ onFilterChange }) => {
       <label htmlFor="location">Location:</label>
       <select id="location" onChange={onFilterChange}>
         <option value="">All Locations</option>
-        <option value="Zurich">Zurich</option>
-        <option value="Lucerne">Lucerne</option>
-        <option value="Bern">Bern</option>
-        <option value="Interlaken">Interlaken</option>
+        <option value="Haifa">Haifa</option>
+        <option value="Tel Aviv">Tel Aviv</option>
+        <option value="Hadera">Hadera</option>
+        <option value="Jerusalim">Jerusalim</option>
         <option value="Grindelwald">Grindelwald</option>
         <option value="Geneva">Geneva</option>
         <option value="Basel">Basel</option>
