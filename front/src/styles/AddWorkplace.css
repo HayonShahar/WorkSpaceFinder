@@ -73,7 +73,15 @@
   .add-workplace-form select:invalid {
     color: gray;
   }
+
+  .add-workspace-message{
+    text-align: center;
+    font-size: 25px;
+  }
   
+  .successMessage{
+    color: green;
+  }
   
   
   /* Mobile responsiveness */
