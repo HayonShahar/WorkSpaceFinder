@@ -59,15 +59,40 @@ function RegisterForm() {
 
         console.log(userData);
 
-        setSuccess("Registretion Successfully");
+        try {
+            const response = await axios.post('http://localhost:8080/api/users/register/email', email, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-        localStorage.setItem('WSFuserEmail', JSON.stringify(userData.email));
-        localStorage.setItem('WSFuserName', JSON.stringify(userData.first_name));
+            console.log('Registration:', response.data);
 
-        setTimeout(() => {
-            navigate('/tfa', { state: userData });
-        }, 1500)
+            if (!response.data.success) {
+                setError(response.data.message)
+                return;
+            }
+            setError();
+            setSuccess("Registretion Successfully");
 
+            localStorage.setItem('WSFuserEmail', JSON.stringify(userData.email));
+            localStorage.setItem('WSFuserName', JSON.stringify(userData.first_name));
+
+            setTimeout(() => {
+                navigate('/tfa', { state: userData });
+            }, 1500)
+
+        } catch (error) {
+
+            console.error('Error:', error);
+            if (error.response) {
+                console.error('API Response Error:', error.response.data);
+                // setError(error.response.data.message);
+                return;
+            }
+            setError('An error occurred. Please try again later.');
+            return;
+        }
     };
 
     return (

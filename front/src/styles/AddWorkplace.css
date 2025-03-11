@@ -1,5 +1,6 @@
 /* Container for the Add Workplace page */
 .add-workplace-container {
+  min-height: 73vh;
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;

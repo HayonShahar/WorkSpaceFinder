@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import WorkplaceItem from '../components/WorkplaceItem';
-import FilterBar from '../components/FilterBar'; // Import the filter bar component
+import FilterBar from '../components/FilterBar'; 
 import '../styles/ResultsPage.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +16,14 @@ const ResultsPage = () => {
 
   const navigate = useNavigate();
 
+  function sortArrayByPromoteRollId(arr) {
+    return arr.sort((a, b) => {
+        const idA = a.promote?.promoteRoll?.id ?? 0;
+        const idB = b.promote?.promoteRoll?.id ?? 0;
+        return idB - idA; // סדר יורד
+    });
+}
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -27,7 +35,10 @@ const ResultsPage = () => {
       .then(response => {
         console.log(response.data);
 
-        setWorkplaces(response.data.workSpaces);
+        const sortedWorkSpaces = sortArrayByPromoteRollId(response.data.workSpaces);
+        console.log(sortedWorkSpaces)
+        console.log(sortedWorkSpaces)
+        setWorkplaces(sortedWorkSpaces);
         setFilteredWorkplaces(response.data.workSpaces);
       })
       .catch(error => {
@@ -36,7 +47,6 @@ const ResultsPage = () => {
   }, []);
 
 
-  // Filter workplaces based on selected filters
   const handleFilterChange = (e) => {
     const { id, value } = e.target;
 
@@ -65,20 +75,27 @@ const ResultsPage = () => {
       filtered = filtered.filter(workplace => workplace.type.toLowerCase() === type.toLowerCase());
     }
 
-    setFilteredWorkplaces(filtered);
+    // Sort workplaces based on promoteRoll.id
+    filtered = filtered.sort((a, b) => {
+      const aId = a.promote?.promote?.promoteRoll?.id || 0;
+      const bId = b.promote?.promote?.promoteRoll?.id || 0;
+      return bId - aId; // Sort in descending order (3 -> 1)
+    });
+
+    setFilteredWorkplaces(filtered); // Set filtered and sorted workplaces
   };
 
   return (
     <div className="results-page">
       <FilterBar onFilterChange={handleFilterChange} />
-      <h2>Available Workspaces</h2>
+      {filteredWorkplaces.length > 0 ?<h2>Available Workspaces</h2> : ''}
       <div className="workplace-list">
         {filteredWorkplaces.length > 0 ? (
           filteredWorkplaces.map((workplace) => (
             <WorkplaceItem key={workplace.id} workplace={workplace} />
           ))
         ) : (
-          <div className="loader"></div> // Add a loading state or animation here
+          <div className="loader"></div> 
         )}
       </div>
     </div>

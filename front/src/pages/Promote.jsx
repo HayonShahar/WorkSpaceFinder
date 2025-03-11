@@ -26,6 +26,8 @@ function PromotePage() {
     const [workSpacesArray, setWorkSpacesArray] = useState([]);
     const [workSpaceId, setWorkSpaceId] = useState(null);
     const [promotionStatus, setPromotionStatus] = useState(null); // Track promotion status message
+    const [error, setError] = useState(null); // Track promotion status message
+    const [success, setSuccess] = useState(null); // Track promotion status message
 
     const userId = localStorage.getItem('userId') || 1;
 
@@ -80,11 +82,20 @@ function PromotePage() {
     const handleConfirmSelection = async () => {
         if (!selectedPromotion || !workSpaceId) return; // Ensure both are selected
         
+        const isValidToPromote = workSpacesArray.filter(workspace => +workspace.id === +workSpaceId);
+        console.log(isValidToPromote[0].uploadUserId);
+        
+        if(isValidToPromote[0].uploadUserId !== +userId){
+            setError("Only the space owner or the user who uploaded the space can promote it.")
+            return;
+        }
+        setError("");
+        
         const promotionData = {
-            workSpaceId: workSpaceId,  // the selected workspace id
-            userId: userId,            // the logged-in user id
+            workSpaceId: workSpaceId,  
+            userId: userId,           
             promoteRoll: {
-                id: selectedPromotion.id,  // the selected promotion id
+                id: selectedPromotion.id, 
             }
         };
         
@@ -108,10 +119,7 @@ function PromotePage() {
                     message: `You have selected the ${selectedPromotion.title} for $${selectedPromotion.price}`,
                 });
                 
-                // Pop-up for success
-                //alert(`Success: You have selected the ${selectedPromotion.title} for $${selectedPromotion.price}`);
-                alert(`succes: ${data.message}`);
-                // Reset selections and show only the 3 options again
+
                 setSelectedPromotion(null);
                 setWorkSpaceId(null);
             } else {
@@ -119,9 +127,6 @@ function PromotePage() {
                     success: false,
                     message: data.message || 'There was an error with the promotion selection',
                 });
-                
-                // Pop-up for failure
-                alert(`Failure: ${data.message || 'There was an error with the promotion selection'}`);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -129,9 +134,6 @@ function PromotePage() {
                 success: false,
                 message: 'Failed to submit promotion',
             });
-            
-            // Pop-up for failure
-            alert('Failure: Failed to submit promotion');
         }
     };
 
@@ -173,6 +175,7 @@ function PromotePage() {
                             </option>
                         ))}
                     </select>
+                    {error && <span style={{color: "red"}}><br/>{error}</span>}
                 </div>
             )}
         </div>
