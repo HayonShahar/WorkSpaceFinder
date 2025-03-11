@@ -1,5 +1,5 @@
 .hero-container {
-  background-image: url('https://example.com/hero-bg.jpg'); /* You can add your own image here */
+  /* background-image: url('../assets/background.webp');  */
   background-size: cover;
   background-position: center;
   height: 60vh;
@@ -9,17 +9,21 @@
   align-items: center;
   text-align: center;
   padding: 0 20px;
+  
 }
 
 .hero-container h1 {
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 10px;
+  color: white; 
+  -webkit-text-stroke: 2px black; 
 }
 
 .hero-container p {
   font-size: 1.5rem;
   margin-bottom: 20px;
+  color: white; 
 }
 
 .cta-button {

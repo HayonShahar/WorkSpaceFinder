@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";  // Import axios
 import "../styles/WorkplacePage.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
 
 const WorkplacePage = () => {
   const location = useLocation();
   const workplace = location.state;
+  const navigate = useNavigate()
 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -20,7 +24,14 @@ const WorkplacePage = () => {
 
   const userId = localStorage.getItem("userId");
 
+  
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+      return;
+    }
+    
     if (!workplace) {
       console.error("Workplace data is missing");
       setError("Workplace data not found");
@@ -81,7 +92,10 @@ const WorkplacePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!userName || !newComment || !rating) {
-      alert("Please enter your name, a comment, and select a rating!");
+      setError("Please enter your name, a comment, and select a rating!");
+      setTimeout(() => {
+        setError('');
+      }, 1500)
       return;
     }
 
@@ -111,42 +125,69 @@ const WorkplacePage = () => {
       // console.log(response.data.message);
 
       console.log("Rating submitted successfully:", ratingResponse.data);
-      setComments((prevComments) => [
-        ...prevComments,
-        { userName, comment: newComment, rating, timestamp: new Date() },
-      ]);
+      fetchComments();
       fetchRatings();
 
       setNewComment("");
       setUserName("");
       setRating(null);
-      
-      setTimeout(()=>{
+
+      setTimeout(() => {
         setError("");
         setSeccuss("");
-      },1500);
-      // alert("Comment and Rating submitted successfully!");
+      }, 1500);
 
     } catch (error) {
       console.error("Error submitting comment and rating:", error);
-      // alert("Failed to submit comment and rating. Please try again.");
     }
   };
 
   const renderComment = (comment, index) => {
+    console.log(comment);
+
     const commentText = comment.comment || comment.content || comment.message || "No comment text";
-    const username = comment.userName || comment.name || "Anonymous";
-    const timestamp = comment.timestamp || comment.createdAt || comment.date;
+    const username = comment.userDTO.first_name + " " + comment.userDTO.last_name || "Anonymous";
+    const timestamp = comment.created_at
 
     return (
       <div key={`comment-${index}`} className="comment">
         <p><strong>{username}:</strong> {commentText}</p>
         {timestamp && (
-          <p className="timestamp">{new Date(timestamp).toLocaleString()}</p>
+          <div className="comment-bottom">
+            <p className="timestamp">{new Date(timestamp).toLocaleString()}</p>
+            <button id="trashBTN" style={{ backgroundColor: "none" }} onClick={() => deleteRate(comment.id)}>
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
+          </div>
         )}
       </div>
     );
   };
+
+  const deleteRate = async (id) => {
+    axios.delete(`http://localhost:8080/api/ratings/${id}`)
+      .then(response => {
+        console.log('Deleted', response.data);
+        if(response.data.success){
+          fetchComments();
+          fetchRatings();
+
+          setTimeout(() => {
+            setSeccuss(response.data.message);
+          }, 1500)
+  
+          return;
+        }
+
+        setTimeout(() => {
+          setError(response.data.message);
+        }, 1500)
+
+      })
+      .catch(error => {
+        console.error('Error', error);
+      });
+  }
 
   const encodedAddress = encodeURIComponent(workplace?.address || "");
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
@@ -157,7 +198,7 @@ const WorkplacePage = () => {
       {workplace ? (
         <>
           <h1>{workplace.name}</h1>
-          <img src={workplace.image_url}></img>
+          <img className="page-img" src={workplace.imageUrl} onClick={nav}></img>
           <p><strong>Type:</strong> {workplace.type}</p>
           <p><strong>Address:</strong> {workplace.address}</p>
           <p><strong>Description:</strong> {workplace.description}</p>
@@ -215,8 +256,8 @@ const WorkplacePage = () => {
               </form>
             </div>
             <div>
-            {error && <p className="error-message">{error}</p>}
-            {seccuss && <p className="seccuss-message">{seccuss}</p>}
+              {error && <p className="error-message">{error}</p>}
+              {seccuss && <p className="seccuss-message">{seccuss}</p>}
             </div>
             <div className="existing-comments">
               <h2>Existing Comments</h2>

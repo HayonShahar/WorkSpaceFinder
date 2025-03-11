@@ -112,3 +112,18 @@ body.dark-mode .workplace-item p {
 p.txtcard{
   margin: 5px;
 }
+
+#BASIC{
+  border-top: 5px solid rgba(182, 181, 181, 0.393); 
+  border-left: 5px solid rgba(182, 181, 181, 0.393);
+}
+
+#STANDARD{
+  border-top: 2px solid rgba(0, 195, 255, 0.482);
+  border-left: 2px solid rgba(0, 195, 255, 0.482);
+}
+
+#PREMIUM{
+  border-top: 2px solid rgba(255, 196, 0, 0.826);
+  border-left: 2px solid rgba(255, 196, 0, 0.826);
+}

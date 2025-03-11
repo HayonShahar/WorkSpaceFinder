@@ -10,6 +10,7 @@ body {
 
 /* Container for the whole page */
 .promote-page {
+    min-height: 73vh;
     display: flex;
     flex-direction: column;
     align-items: center;

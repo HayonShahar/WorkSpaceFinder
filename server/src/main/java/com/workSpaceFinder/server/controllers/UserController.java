@@ -24,6 +24,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/register/email")
+    public ResponseEntity<Map<String, Object>> emailCheck(@RequestBody String email) {
+        System.out.println(email);
+        Map<String, Object> response = userService.emailCheck(email);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> registerUser(@RequestBody User user) {
         Map<String, Object> response = userService.registerUser(user);

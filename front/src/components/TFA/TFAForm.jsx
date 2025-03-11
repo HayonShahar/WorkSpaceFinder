@@ -33,7 +33,7 @@ function TFAForm() {
                 },
             });
 
-            console.log('Registration Success:', response.data);
+            console.log('Registration Success:', response);
             setSuccess(response.data.message);
 
         } catch (error) {
@@ -41,7 +41,6 @@ function TFAForm() {
             console.error('Error:', error);
             if (error.response) {
                 console.error('API Response Error:', error.response.data);
-                setError(error.response.data.message);
                 return;
             }
             setError('An error occurred. Please try again later.');
@@ -75,7 +74,6 @@ function TFAForm() {
                 (result) => {
                     console.log('SUCCESS!');
                     console.log(result);
-                    handleSubmit();
                 },
                 (error) => {
                     console.log('FAILED...', error);

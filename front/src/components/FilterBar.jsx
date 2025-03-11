@@ -22,6 +22,7 @@ const FilterBar = ({ onFilterChange, workplaces }) => {
         <option value="office">Office</option>
         <option value="cafe">Café</option>
         <option value="library">Library</option>
+        <option value="nature">Nature</option>
       </select>
     </div>
   );

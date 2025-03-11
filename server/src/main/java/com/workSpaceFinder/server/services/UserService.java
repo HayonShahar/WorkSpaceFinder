@@ -20,6 +20,25 @@ public class UserService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+    public Map<String, Object> emailCheck(String email) {
+        Map<String, Object> response = new HashMap<>();
+
+        String cleanedEmail = email.replaceAll("[\"']", "");
+
+        Optional<User> userOptional = userRepository.findByEmail(cleanedEmail);
+
+        if (userOptional.isPresent()) {
+            response.put("message", "Email already exists.");
+            response.put("success", false);
+            return response;
+        }
+
+        response.put("success", true);
+        response.put("message", "Email is free.");
+        return response;
+
+    }
+
     public Map<String, Object> registerUser(User user) {
         Map<String, Object> response = new HashMap<>();
 

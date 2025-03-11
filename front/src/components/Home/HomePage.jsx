@@ -10,8 +10,7 @@ const HomePage = () => {
     <div>
       <HeroSection />
       <FeaturesSection />
-      <SearchSection />
-      <MapComponent /> {/* Карта теперь здесь */}
+      <MapComponent /> 
 
     </div>
   );

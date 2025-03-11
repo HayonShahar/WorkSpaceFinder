@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 
 
-const googleMapsAPIKey = '';
+const googleMapsAPIKey = 'AIzaSyBwAc6_njtlfTCBZ60PC8WSa2TmyA1nh68';
 
 const MapComponent = () => {
   const [locations, setLocations] = useState([]);

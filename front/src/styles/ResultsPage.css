@@ -1,4 +1,8 @@
 
+  .results-page{
+    min-height: 73vh;
+  }
+  
   .rating {
     font-size: 1rem;
     color: #f39c12;
@@ -18,5 +22,9 @@
   
     .btn:hover {
     background-color: #2980b9;
+  }
+
+  .workplace-item{
+    text-align: center;
   }
   

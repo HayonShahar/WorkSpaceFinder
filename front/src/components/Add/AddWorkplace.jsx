@@ -125,6 +125,7 @@ const AddWorkplace = () => {
                         <option value="OFFICE">OFFICE</option>
                         <option value="CAFE">CAFE</option>
                         <option value="LIBRARY">LIBRARY</option>
+                        <option value="NATURE">NATURE</option>
                     </select>
                 </div>
 

@@ -63,12 +63,12 @@ const Contact = () => {
                     </div>
                     <div>
                         <h3>Shahar Hayon</h3>
-                        <img src="" alt="" />
+                        <img src='../src/assets/IMG_2175copy.png' alt="Shahar" id="photo"/>
                         <p></p>
                     </div>
                     <div>
                         <h3>Daniel Melki</h3>
-                        <img src="" alt="" />
+                        <img src="" alt="" id='photo'/>
                         <p></p>
                     </div>
                 </div>
