@@ -37,9 +37,9 @@ const ResultsPage = () => {
 
         const sortedWorkSpaces = sortArrayByPromoteRollId(response.data.workSpaces);
         console.log(sortedWorkSpaces)
-        console.log(sortedWorkSpaces)
+
         setWorkplaces(sortedWorkSpaces);
-        setFilteredWorkplaces(response.data.workSpaces);
+        setFilteredWorkplaces(sortedWorkSpaces);
       })
       .catch(error => {
         console.error('Error uploading data:', error);
@@ -61,12 +61,6 @@ const ResultsPage = () => {
     const { location, rating, type } = filters;
     let filtered = workplaces;
 
-    if (location) {
-      filtered = filtered.filter(workplace =>
-        workplace.location.toLowerCase().includes(location.toLowerCase())
-      );
-    }
-
     if (rating) {
       filtered = filtered.filter(workplace => workplace.rating >= parseFloat(rating));
     }
@@ -82,7 +76,7 @@ const ResultsPage = () => {
       return bId - aId; // Sort in descending order (3 -> 1)
     });
 
-    setFilteredWorkplaces(filtered); // Set filtered and sorted workplaces
+    setFilteredWorkplaces(filtered);
   };
 
   return (

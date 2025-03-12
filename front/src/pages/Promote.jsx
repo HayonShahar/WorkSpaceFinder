@@ -37,20 +37,20 @@ function PromotePage() {
         {
             id: 1,
             title: 'Basic Promotion',
-            description: 'Get basic visibility.',
+            description: 'Get extra visibility for 1 months.',
             price: 5,
         },
         {
             id: 2,
             title: 'Standard Promotion',
-            description: 'Get medium visibility and additional features.',
+            description: 'Get extra visibility for 3 months.',
             price: 10,
         },
         {
             id: 3,
             title: 'Premium Promotion',
-            description: 'Get maximum visibility and exclusive features.',
-            price: 20,
+            description: 'Get extra visibility for 1 year',
+            price: 25,
         },
     ];
     
@@ -90,7 +90,7 @@ function PromotePage() {
             return;
         }
         setError("");
-        
+
         const promotionData = {
             workSpaceId: workSpaceId,  
             userId: userId,           

@@ -31,7 +31,7 @@ section {
 
 /* .text inside sections */
 .text {
-    color: #555;
+    color: #878787;
     line-height: 1.6;
     font-size: 1.1rem;
     text-align: center; /* Center align text inside .text */

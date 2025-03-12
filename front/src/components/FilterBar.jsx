@@ -3,8 +3,7 @@ import '../styles/FilterBar.css';
 
 
 
-const FilterBar = ({ onFilterChange, workplaces }) => {
-  console.log(workplaces)
+const FilterBar = ({ onFilterChange }) => {
   return (
     <div className="filter-bar">
       <label htmlFor="rating">Rating:</label>

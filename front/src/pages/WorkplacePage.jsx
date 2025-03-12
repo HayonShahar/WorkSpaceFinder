@@ -175,12 +175,17 @@ const WorkplacePage = () => {
           setTimeout(() => {
             setSeccuss(response.data.message);
           }, 1500)
-  
+          setSeccuss('');
           return;
         }
 
         setTimeout(() => {
           setError(response.data.message);
+        }, 1500)
+
+        setTimeout(() => {
+          setError('');
+          setSeccuss('');
         }, 1500)
 
       })
@@ -198,7 +203,7 @@ const WorkplacePage = () => {
       {workplace ? (
         <>
           <h1>{workplace.name}</h1>
-          <img className="page-img" src={workplace.imageUrl} onClick={nav}></img>
+          <img className="page-img" src={workplace.imageUrl}></img>
           <p><strong>Type:</strong> {workplace.type}</p>
           <p><strong>Address:</strong> {workplace.address}</p>
           <p><strong>Description:</strong> {workplace.description}</p>

@@ -34,9 +34,9 @@ const Header = () => {
         <ul>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/results">Results</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
           <li><Link to="/addworkplace">Add Work Place</Link></li>
           <li><Link to="/promote">Promote</Link></li> {/* Added Promote link */}
+          <li><Link to="/contact">About</Link></li>
           {!isConnected() && <li><button onClick={logout}>Logout</button></li>} 
         </ul>
       </div>
