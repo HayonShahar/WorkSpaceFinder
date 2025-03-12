@@ -16,14 +16,14 @@
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 10px;
-  color: white; 
-  -webkit-text-stroke: 2px black; 
+  /* color: white;  */
+  /* -webkit-text-stroke: 2px black;  */
 }
 
 .hero-container p {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  color: white; 
+  /* color: white;  */
 }
 
 .cta-button {

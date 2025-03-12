@@ -58,7 +58,7 @@ const Contact = () => {
                 <div id='devl'>
                     <div>
                         <h3>Anton Horelyk</h3>
-                        <img src="../src/components/contactComponents/camphoto_1932422408.JPG" alt="Anton" id='photo' />
+                        <img src='../src/assets/anton.jpeg' alt="Anton" id='photo' />
                         <p></p>
                     </div>
                     <div>
@@ -68,7 +68,7 @@ const Contact = () => {
                     </div>
                     <div>
                         <h3>Daniel Melki</h3>
-                        <img src="" alt="" id='photo'/>
+                        <img src="../src/assets/melki.jpeg" alt="daniel" id='photo'/>
                         <p></p>
                     </div>
                 </div>
